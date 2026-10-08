@@ -1,0 +1,2992 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ManCount Board - Praktikum Akuntansi Manajemen</title>
+  
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- KaTeX untuk Notasi Matematis Formal & Rumus Akuntansi -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    body { 
+      font-family: 'Inter', sans-serif; 
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(1deg); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.35; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.04); }
+    }
+    @keyframes doodleFloat1 {
+      0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+      50% { transform: translate(6px, -12px) rotate(4deg); }
+    }
+    @keyframes doodleFloat2 {
+      0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+      50% { transform: translate(-8px, -10px) rotate(-4deg); }
+    }
+    @keyframes doodleFloat3 {
+      0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+      50% { transform: translate(10px, -6px) rotate(6deg); }
+    }
+
+    .animate-float { animation: floatSlow 5s ease-in-out infinite; }
+    .animate-glow { animation: pulseGlow 4s ease-in-out infinite; }
+    .doodle-1 { animation: doodleFloat1 8s ease-in-out infinite; will-change: transform; }
+    .doodle-2 { animation: doodleFloat2 9.5s ease-in-out infinite; will-change: transform; }
+    .doodle-3 { animation: doodleFloat3 7s ease-in-out infinite; will-change: transform; }
+
+    .animatic-btn {
+      background: linear-gradient(90deg, #10b981 0%, #06b6d4 50%, #10b981 100%);
+      background-size: 200% auto;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .animatic-btn:hover:not(:disabled) {
+      background-position: right center;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+    }
+    .animatic-btn:active:not(:disabled) {
+      transform: translateY(0px) scale(0.98);
+    }
+
+    .animatic-btn-indigo {
+      background: linear-gradient(90deg, #6366f1 0%, #a855f7 50%, #6366f1 100%);
+      background-size: 200% auto;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .animatic-btn-indigo:hover:not(:disabled) {
+      background-position: right center;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+    }
+    .animatic-btn-indigo:active:not(:disabled) {
+      transform: translateY(0px) scale(0.98);
+    }
+
+    input, select, textarea, button {
+      font-size: 16px;
+    }
+    @media (min-width: 640px) {
+      input, select, textarea, button {
+        font-size: 0.875rem;
+      }
+    }
+
+    .smooth-scroll {
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+    .smooth-scroll::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .smooth-scroll::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.5);
+      border-radius: 9999px;
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printable-certificate, #printable-certificate * { visibility: visible; }
+      #printable-certificate {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 30px !important;
+        background: white !important;
+        color: #0f172a !important;
+        box-shadow: none !important;
+        border: 2px solid #059669 !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen min-h-[100dvh] bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-slate-100 flex flex-col font-sans relative overflow-x-hidden selection:bg-emerald-500 selection:text-slate-950">
+
+  <!-- LATAR BELAKANG DOODLE AKUNTANSI MANAJEMEN -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none opacity-20 sm:opacity-25" aria-hidden="true">
+    <svg class="doodle-1 absolute top-8 left-4 sm:left-12 w-14 h-14 sm:w-20 sm:h-20 text-emerald-400" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="14" y="6" width="36" height="52" rx="6"></rect>
+      <rect x="20" y="12" width="24" height="10" rx="2" fill="currentColor" fill-opacity="0.1"></rect>
+      <line x1="22" y1="30" x2="26" y2="30"></line>
+      <line x1="30" y1="30" x2="34" y2="30"></line>
+      <line x1="38" y1="30" x2="42" y2="30"></line>
+      <line x1="22" y1="38" x2="26" y2="38"></line>
+      <line x1="30" y1="38" x2="34" y2="38"></line>
+      <line x1="38" y1="38" x2="42" y2="38"></line>
+      <line x1="22" y1="46" x2="26" y2="46"></line>
+      <line x1="30" y1="46" x2="34" y2="46"></line>
+      <line x1="38" y1="46" x2="42" y2="50"></line>
+      <line x1="38" y1="50" x2="42" y2="46"></line>
+    </svg>
+
+    <svg class="doodle-2 absolute top-20 right-6 sm:right-16 w-16 h-16 sm:w-24 sm:h-24 text-teal-400" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="8" y1="56" x2="56" y2="56"></line>
+      <line x1="8" y1="56" x2="8" y2="8"></line>
+      <rect x="14" y="34" width="8" height="22" fill="currentColor" fill-opacity="0.15"></rect>
+      <rect x="26" y="22" width="8" height="34" fill="currentColor" fill-opacity="0.2"></rect>
+      <rect x="38" y="14" width="8" height="42" fill="currentColor" fill-opacity="0.25"></rect>
+      <path d="M12 40 L26 24 L38 30 L52 10" stroke-width="2.5"></path>
+      <circle cx="52" cy="10" r="3" fill="currentColor"></circle>
+    </svg>
+
+    <svg class="doodle-3 absolute top-1/3 left-6 sm:left-1/4 w-14 h-14 sm:w-20 sm:h-20 text-indigo-400" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="32" y1="8" x2="32" y2="54"></line>
+      <line x1="14" y1="18" x2="50" y2="18"></line>
+      <path d="M14 18 L6 36 C6 42 22 42 22 36 Z" fill="currentColor" fill-opacity="0.1"></path>
+      <path d="M50 18 L42 36 C42 42 58 42 58 36 Z" fill="currentColor" fill-opacity="0.1"></path>
+      <path d="M24 54 L40 54"></path>
+    </svg>
+
+    <svg class="doodle-1 absolute top-1/2 right-4 sm:right-12 w-14 h-14 sm:w-22 sm:h-22 text-cyan-400" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="32" cy="32" r="26"></circle>
+      <circle cx="32" cy="32" r="18"></circle>
+      <circle cx="32" cy="32" r="10" fill="currentColor" fill-opacity="0.2"></circle>
+      <line x1="32" y1="4" x2="32" y2="60"></line>
+      <line x1="4" y1="32" x2="60" y2="32"></line>
+    </svg>
+
+    <svg class="doodle-2 absolute bottom-24 left-6 sm:left-16 w-16 h-16 sm:w-24 sm:h-24 text-emerald-300" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 56 L6 30 L22 42 L22 30 L38 42 L38 20 L58 20 L58 56 Z" fill="currentColor" fill-opacity="0.1"></path>
+      <line x1="6" y1="56" x2="58" y2="56"></line>
+      <line x1="44" y1="20" x2="44" y2="10"></line>
+      <line x1="52" y1="20" x2="52" y2="10"></line>
+      <rect x="14" y="46" width="6" height="10" fill="currentColor" fill-opacity="0.3"></rect>
+      <rect x="30" y="46" width="6" height="10" fill="currentColor" fill-opacity="0.3"></rect>
+      <rect x="44" y="32" width="8" height="8"></rect>
+    </svg>
+
+    <svg class="doodle-3 absolute bottom-28 right-8 sm:right-1/4 w-14 h-14 sm:w-20 sm:h-20 text-indigo-300" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="32" cy="32" r="24"></circle>
+      <path d="M32 8 A24 24 0 0 1 56 32 L32 32 Z" fill="currentColor" fill-opacity="0.25"></path>
+      <path d="M56 32 A24 24 0 0 1 32 56 L32 32 Z" fill="currentColor" fill-opacity="0.15"></path>
+    </svg>
+  </div>
+
+  <!-- AMBIENT GLOW BACKGROUNDS -->
+  <div class="fixed top-10 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none animate-glow z-0"></div>
+  <div class="fixed bottom-1/3 right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none animate-glow z-0" style="animation-delay: 2s;"></div>
+
+  <!-- NOTIFICATION TOAST -->
+  <div id="notification-toast" class="fixed top-4 right-4 sm:top-5 sm:right-5 z-50 hidden transition-all duration-300 transform translate-y-[-20px] max-w-[90vw] sm:max-w-md">
+    <div id="toast-content" class="px-4 sm:px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 border bg-slate-900/95 backdrop-blur">
+      <span id="toast-message" class="font-medium text-xs sm:text-sm leading-snug">Notifikasi</span>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="bg-slate-950/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40 px-3 sm:px-6 py-3 sm:py-3.5 flex items-center justify-between gap-2">
+    <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer select-none" onclick="router.navigateTo('welcome')">
+      <div class="bg-gradient-to-tr from-emerald-500 to-teal-400 p-2 sm:p-2.5 rounded-xl shadow-lg shadow-emerald-500/20 text-slate-950 animate-float flex-shrink-0">
+        <i data-lucide="briefcase" class="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]"></i>
+      </div>
+      <div>
+        <h1 class="text-base sm:text-xl font-black tracking-wider bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+          MANCOUNT BOARD
+        </h1>
+        <p class="text-[10px] sm:text-xs text-slate-400 font-medium hidden sm:block">Praktikum Akuntansi Manajemen S1 — Junior Management Accountant</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <button onclick="openAiModal()" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-xl text-[11px] sm:text-xs font-bold transition flex items-center gap-1.5 shadow-lg shadow-purple-500/20 cursor-pointer min-h-[38px]">
+        <i data-lucide="bot" class="w-4 h-4"></i>
+        <span class="hidden xs:inline">AI Tutor</span>
+      </button>
+
+      <div id="session-badge" class="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-semibold flex items-center gap-1.5 border bg-rose-500/10 text-rose-400 border-rose-500/30 whitespace-nowrap">
+        <span id="session-dot" class="w-2 h-2 rounded-full animate-ping bg-rose-400"></span>
+        <span id="session-badge-text">Sesi Ditutup</span>
+      </div>
+
+      <button id="nav-exit-btn" class="hidden px-2.5 sm:px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-[11px] sm:text-xs font-semibold transition border border-slate-700 items-center gap-1 cursor-pointer min-h-[38px]" onclick="router.navigateTo('welcome')">
+        <i data-lucide="home" class="w-3.5 h-3.5"></i> Beranda
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main id="app-main" class="flex-1 max-w-7xl w-full mx-auto p-3.5 sm:p-6 relative z-10">
+    <!-- Konten dinamis dirender oleh JavaScript -->
+  </main>
+
+  <!-- AI TUTOR MODAL -->
+  <div id="ai-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-slate-900 border border-purple-500/40 rounded-2xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative space-y-4 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 sm:p-2.5 bg-purple-500/20 text-purple-400 rounded-xl">
+            <i data-lucide="bot" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-white">AI Mancount Tutor</h3>
+            <p class="text-[10px] sm:text-xs text-slate-400">Didukung referensi textbook standar akademik & notasi matematis formal (LaTeX)</p>
+          </div>
+        </div>
+        <button onclick="closeAiModal()" class="p-2 text-slate-400 hover:text-white rounded-lg cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="ai-chat-messages" class="flex-1 overflow-y-auto space-y-3 p-3 sm:p-4 bg-slate-950/60 rounded-xl border border-slate-800/80 min-h-[260px] max-h-[420px] smooth-scroll">
+        <div class="flex items-start gap-2.5">
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center flex-shrink-0 text-[11px] sm:text-xs font-bold">AI</div>
+          <div class="bg-slate-800/90 border border-slate-700 rounded-xl p-3 text-xs text-slate-200 leading-relaxed max-w-lg space-y-2">
+            <p>Halo! Saya adalah <strong>AI Mancount Tutor</strong> Anda. Silakan ajukan pertanyaan seputar konsep atau kalkulasi akuntansi manajemen. Setiap penjelasan didasarkan pada literatur standar (Garrison, Horngren, Blocher, Hansen & Mowen).</p>
+            <p class="text-purple-300 font-semibold">Contoh: Persamaan High-Low $Y = a + bX$, tarif overhead $POOR = \frac{\text{Est. Overhead}}{\text{Est. Aktivitas}}$, analisis CVP, BEP, atau varians biaya.</p>
+          </div>
+        </div>
+      </div>
+
+      <form onsubmit="handleAiSubmit(event)" class="flex gap-2 pt-1">
+        <input 
+          type="text" 
+          id="ai-prompt-input" 
+          placeholder="Tanyakan rumus atau konsep teori akuntansi manajemen..." 
+          class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs text-white focus:outline-none focus:border-purple-500"
+          required
+        />
+        <button type="submit" id="ai-send-btn" class="px-4 sm:px-5 py-2.5 sm:py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 cursor-pointer flex-shrink-0">
+          <i data-lucide="send" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">Kirim</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- CERTIFICATE MODAL -->
+  <div id="certificate-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white text-slate-900 rounded-2xl max-w-3xl w-full p-5 sm:p-8 shadow-2xl relative space-y-5 max-h-[92vh] overflow-y-auto smooth-scroll" id="printable-certificate">
+      <div class="text-center space-y-2 border-b-2 border-slate-200 pb-5">
+        <div class="flex justify-center mb-1">
+          <div class="bg-slate-900 text-emerald-400 p-2.5 rounded-2xl shadow">
+            <i data-lucide="award" class="w-7 h-7 sm:w-8 sm:h-8"></i>
+          </div>
+        </div>
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-emerald-600">Sertifikat Kelulusan Praktikum</span>
+        <h2 class="text-xl sm:text-3xl font-black text-slate-900">JUNIOR MANAGEMENT ACCOUNTANT</h2>
+        <p class="text-[11px] sm:text-xs text-slate-500">Mancount Board - Papan Permainan Interaktif Praktikum Akuntansi Manajemen</p>
+      </div>
+
+      <div class="text-center space-y-3.5 py-2">
+        <p class="text-xs sm:text-sm text-slate-600">Diberikan dengan bangga kepada kelompok:</p>
+        <h3 id="cert-group-name" class="text-lg sm:text-2xl font-black text-emerald-700 uppercase tracking-wide">-- NAMA KELOMPOK --</h3>
+        <p class="text-[11px] sm:text-xs text-slate-500 max-w-lg mx-auto leading-relaxed">Telah berhasil menuntaskan seluruh 7 modul tantangan kasus kritis (Pertemuan 1 s.d. 7) dengan akumulasi skor gemilang.</p>
+        
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 max-w-md mx-auto text-left">
+          <h4 class="text-[11px] sm:text-xs font-bold uppercase text-slate-700 mb-1.5 border-b pb-1">Daftar Anggota Kelompok:</h4>
+          <ul id="cert-members-list" class="text-xs text-slate-600 space-y-1">
+            <!-- Rendered by JS -->
+          </ul>
+        </div>
+
+        <div class="pt-1">
+          <span class="text-[11px] sm:text-xs text-slate-500">Total Akumulasi Skor Akhir:</span>
+          <p id="cert-total-score" class="text-xl sm:text-2xl font-black text-emerald-600">0 Poin</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between border-t border-slate-200 pt-5 text-xs text-slate-500 gap-4">
+        <div class="text-center sm:text-left">
+          <a 
+            href="https://scholar.google.co.id/citations?user=dhhiVewAAAAJ&hl=id" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="font-bold text-slate-800 hover:text-emerald-600 underline inline-flex items-center gap-1 group"
+            title="Buka profil Google Scholar Sukma Lesmana, Ph.D"
+          >
+            <span>Sukma Lesmana, Ph.D</span>
+            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover:text-emerald-600 transition"></i>
+          </a>
+          <p class="text-[11px]">Dosen Pengampu Akuntansi Manajemen</p>
+        </div>
+        <div class="flex gap-2 w-full sm:w-auto">
+          <button onclick="window.print()" class="flex-1 sm:flex-initial px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow flex items-center justify-center gap-1.5 cursor-pointer text-xs">
+            <i data-lucide="printer" class="w-4 h-4"></i> Cetak / Simpan PDF
+          </button>
+          <button onclick="closeCertificateModal()" class="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl font-semibold cursor-pointer text-xs">
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL KONFIRMASI RESET SEMUA DATA (DOSEN) -->
+  <div id="reset-confirm-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-rose-500/50 rounded-2xl max-w-md w-full p-6 shadow-2xl text-center space-y-4">
+      <div class="w-14 h-14 bg-rose-500/20 text-rose-400 rounded-2xl mx-auto flex items-center justify-center">
+        <i data-lucide="alert-triangle" class="w-8 h-8"></i>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold text-white">Reset Seluruh Data Kelompok?</h3>
+        <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+          Tindakan ini akan <strong>menghapus permanen seluruh riwayat kelompok, skor jawaban, dan sesi yang tersimpan</strong> di proyek Firebase Anda. Papan leaderboard akan kembali ke status idle standby.
+        </p>
+      </div>
+      <div class="flex gap-3 pt-2">
+        <button onclick="window.closeResetModal()" class="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold transition cursor-pointer">
+          Batal
+        </button>
+        <button id="confirm-reset-btn" onclick="window.executeDeleteAllGroups()" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold transition shadow-lg cursor-pointer">
+          Ya, Reset Semua
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL KELOLA / UBAH PIN KELOMPOK (DOSEN) -->
+  <div id="pin-manager-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-indigo-500/50 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 bg-indigo-500/20 text-indigo-400 rounded-xl">
+            <i data-lucide="key" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white">Kelola PIN Kelompok</h3>
+            <p id="manage-group-name" class="text-xs text-emerald-400 font-semibold">Nama Kelompok</p>
+          </div>
+        </div>
+        <button onclick="window.closePinManagerModal()" class="p-1 text-slate-400 hover:text-white rounded-lg cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+          <span class="text-slate-400 block mb-1">PIN Saat Ini:</span>
+          <span id="current-group-pin-display" class="text-base font-black text-amber-400 tracking-wider font-mono">----</span>
+        </div>
+
+        <form onsubmit="window.handleUpdateGroupPin(event)" class="space-y-3">
+          <input type="hidden" id="manage-group-id" value="">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Setel PIN Baru (Jika Lupa/Diubah)</label>
+            <input 
+              type="text" 
+              id="new-group-pin-input" 
+              placeholder="Masukkan PIN baru" 
+              required
+              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 font-mono"
+            />
+          </div>
+          <div class="flex gap-2 pt-2">
+            <button type="button" onclick="window.closePinManagerModal()" class="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold cursor-pointer">
+              Tutup
+            </button>
+            <button type="submit" class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold cursor-pointer transition">
+              Simpan PIN Baru
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCUSSION MODAL -->
+  <div id="discussion-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-4 sm:p-6 space-y-5 shadow-2xl smooth-scroll">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <span class="text-[10px] sm:text-xs font-bold text-indigo-400 uppercase tracking-wider">Kunci Jawaban & Pembahasan Dosen</span>
+          <h3 id="discussion-modal-title" class="text-base sm:text-xl font-black text-white">Pertemuan</h3>
+        </div>
+        <button onclick="closeDiscussionModal()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold cursor-pointer">
+          Tutup
+        </button>
+      </div>
+
+      <div id="discussion-modal-body" class="space-y-4">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-800 py-4 sm:py-5 text-center text-[11px] sm:text-xs text-slate-500 relative z-10 bg-slate-950/40 backdrop-blur px-4">
+    Mancount Board - Papan Permainan Interaktif Praktikum Akuntansi Manajemen - Developed by : 
+    <a 
+      href="https://scholar.google.co.id/citations?user=dhhiVewAAAAJ&hl=id" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="text-emerald-400 hover:underline font-medium inline-flex items-center gap-1 ml-1 group"
+      title="Buka profil Google Scholar Sukma Lesmana, Ph.D"
+    >
+      <span>Sukma Lesmana, Ph.D</span>
+      <i data-lucide="external-link" class="w-3 h-3 text-emerald-400/70 group-hover:text-emerald-300 transition"></i>
+    </a>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Konfigurasi Firebase Firestore Proyek mancount-a77f9
+    const myFirebaseConfig = {
+      apiKey: "AIzaSyBsqOUfiZysfMs8cMZYvEUuwCpgeT0bxhQ",
+      authDomain: "mancount-a77f9.firebaseapp.com",
+      projectId: "mancount-a77f9",
+      storageBucket: "mancount-a77f9.firebasestorage.app",
+      messagingSenderId: "360666036060",
+      appId: "1:360666036060:web:d6138ca85c136724147399"
+    };
+
+    const MEETING_CASES = {
+      1: [
+        { 
+          id: 1, 
+          timeLimit: 180, 
+          question: "Sebuah perusahaan manufaktur membayar gaji supervisor pabrik sebesar Rp10.000.000 per bulan terlepas dari jumlah unit yang diproduksi. Manakah analisis yang paling tepat mengenai dampak peningkatan volume produksi sebesar 100% terhadap struktur biaya ini?", 
+          options: [
+            "A. Total biaya tetap meningkat menjadi Rp20.000.000 dan biaya tetap per unit konstan.",
+            "B. Total biaya tetap konstan sebesar Rp10.000.000 dan biaya tetap per unit turun setengahnya.",
+            "C. Total biaya tetap dan biaya tetap per unit keduanya ikut berlipat ganda.",
+            "D. Biaya tetap berubah menjadi biaya variabel karena dipengaruhi tingkat volume."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Prinsip Konseptual:</strong> Biaya tetap (<em>fixed cost</em>) adalah beban yang jumlah totalnya tidak berubah terhadap fluktuasi tingkat volume aktivitas di dalam rentang yang relevan (<em>relevant range</em>).",
+            "<strong>Analisis Matematis:</strong> Jika biaya tetap total $FC = Rp10.000.000$ dan volume awal $Q_1$, maka $FC/Q_1 = AFC_1$. Ketika volume naik 100% menjadi $Q_2 = 2Q_1$, biaya tetap per unit menjadi $AFC_2 = \\frac{Rp10.000.000}{2Q_1} = 0.5 \\times AFC_1$ (turun tepat 50%).",
+            "<strong>Implikasi Manajerial:</strong> Pemahaman bahwa biaya tetap per unit berbanding terbalik dengan volume sangat penting agar manajer tidak salah mengasumsikan biaya tetap sebagai biaya variabel saat menyusun anggaran fleksibel."
+          ],
+          reference: "Garrison, R. H., Noreen, E. W., & Brewer, P. C. (Managerial Accounting, 17th Edition, Bab 1 & 2: Managerial Accounting and Cost Concepts)."
+        },
+        { 
+          id: 2, 
+          timeLimit: 180, 
+          question: "Dalam metode High-Low untuk memisahkan biaya campuran, kelemahan mendasar apa yang dapat merusak akurasi estimasi jika terdapat data outlier ekstrem?", 
+          options: [
+            "A. Metode ini menggunakan seluruh titik data historis secara berlebihan sehingga rumit.",
+            "B. Metode ini hanya mengandalkan dua titik data ekstrem (tertinggi dan terendah) dan mengabaikan titik-titik di antaranya.",
+            "C. Metode ini mensyaratkan tidak adanya biaya tetap dalam persamaan linear.",
+            "D. Metode ini tidak dapat menghitung komponen tarif biaya variabel (b)."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Prinsip Konseptual:</strong> Metode High-Low memisahkan komponen tetap dan variabel dari biaya campuran ($Y = a + bX$) semata-mata dengan menarik garis lurus melalui titik aktivitas tertinggi dan terendah.",
+            "<strong>Kelemahan Metodologis:</strong> Karena hanya 2 titik pengamatan yang digunakan, seluruh observasi periode lainnya diabaikan. Jika titik tertinggi atau terendah merupakan anomali, parameter $a$ dan $b$ akan terdistorsi parah.",
+            "<strong>Solusi Teori:</strong> Literatur menyarankan penggunaan analisis regresi kuadrat terkecil (<em>least-squares regression</em>) untuk menghasilkan estimasi yang lebih reliabel secara statistik."
+          ],
+          reference: "Horngren, C. T., Datar, S. M., & Rajan, M. V. (Cost Accounting: A Managerial Emphasis, 16th Edition, Bab 10: Determining How Costs Behave)."
+        },
+        { 
+          id: 3, 
+          timeLimit: 150, 
+          question: "Manakah di antara berikut ini yang paling tepat diklasifikasikan sebagai bahan baku langsung (direct materials) dalam pembuatan meja kayu khusus?", 
+          options: [
+            "A. Paku kecil yang digunakan untuk memperkuat sambungan.",
+            "B. Lem kayu yang dibeli dalam galon besar untuk seluruh lini produksi.",
+            "C. Kayu jati utama yang membentuk struktur utama meja.",
+            "D. Pelumas mesin pemotong kayu di pabrik."
+          ],
+          correct: 2,
+          discussionPoints: [
+            "<strong>Kriteria Ketertelusuran (Traceability):</strong> Bahan baku langsung harus dapat ditelusuri secara fisik dan ekonomis secara langsung ke produk jadi akhir.",
+            "<strong>Analisis Opsi:</strong> Kayu jati adalah komponen integral dan material utama meja. Paku dan lem kayu dikelompokkan ke Overhead Pabrik karena biaya penelusurannya tidak ekonomis."
+          ],
+          reference: "Blocher, E. J., Stout, D. E., Juras, P. E., & Smith, S. (Cost Management: A Strategic Emphasis, 8th Edition, Bab 2)."
+        },
+        { 
+          id: 4, 
+          timeLimit: 150, 
+          question: "Mengapa biaya tenggelam (sunk cost) dikategorikan sebagai informasi yang tidak relevan dalam pengambilan keputusan manajerial masa depan?", 
+          options: [
+            "A. Karena biaya tersebut belum pernah tercatat dalam laporan akuntansi.",
+            "B. Karena biaya tersebut merupakan pengeluaran masa lalu yang tidak dapat diubah oleh keputusan apapun saat ini.",
+            "C. Karena biaya tersebut selalu bernilai nol pada akhir periode akuntansi.",
+            "D. Karena biaya tersebut dikendalikan langsung oleh manajer operasional."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Definisi Sunk Cost:</strong> Pengeluaran yang telah terjadi di masa lampau dan tidak dapat dipulihkan atau diubah oleh keputusan alternatif manajerial masa depan.",
+            "<strong>Kriteria Relevansi:</strong> Suatu biaya relevan hanya jika terjadi di masa mendatang (<em>future cost</em>) dan berbeda antar-alternatif tindakan."
+          ],
+          reference: "Hansen, D. R., & Mowen, M. M. (Cornerstones of Managerial Accounting, 7th Edition, Bab 12: Short-Run Decision Making)."
+        },
+        { 
+          id: 5, 
+          timeLimit: 180, 
+          question: "Jika jam mesin naik dari 1.000 ke 1.500 jam dan total biaya pemeliharaan naik dari Rp4.000.000 ke Rp5.500.000, berapakah tarif biaya variabel per jam mesin?", 
+          options: [
+            "A. Rp2.500 per jam mesin",
+            "B. Rp3.000 per jam mesin",
+            "C. Rp4.000 per jam mesin",
+            "D. Rp5.500 per jam mesin"
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Formula High-Low:</strong> Tarif variabel $b = \\frac{\\Delta Y}{\\Delta X} = \\frac{Rp5.500.000 - Rp4.000.000}{1.500 - 1.000} = \\frac{Rp1.500.000}{500} = Rp3.000/\\text{jam}$.",
+            "<strong>Verifikasi Biaya Tetap:</strong> $a = Y - bX = Rp5.500.000 - (1.500 \\times Rp3.000) = Rp1.000.000$."
+          ],
+          reference: "Garrison, R. H., Noreen, E. W., & Brewer, P. C. (Managerial Accounting, 17th Edition, Bab 2)."
+        },
+        {
+          id: 6,
+          timeLimit: 180,
+          question: "Apa risiko manajerial terbesar jika mengasumsikan linearitas perilaku biaya di luar rentang relevan (relevant range)?",
+          options: [
+            "A. Biaya variabel akan mendadak hilang dari perhitungan laba rugi.",
+            "B. Lonjakan biaya tetap struktural (misal penambahan pabrik) terabaikan sehingga estimasi anggaran menjadi sangat keliru.",
+            "C. Perusahaan akan mengalami kebangkrutan dalam waktu singkat.",
+            "D. Pajak penghasilan perusahaan akan dihitung terlalu tinggi."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Konsep Rentang Relevan:</strong> Rentang aktivitas di mana asumsi biaya linear ($Y = a + bX$) berlaku valid.",
+            "<strong>Dampak Pelanggaran:</strong> Di luar kapasitas normal, timbul lompatan biaya tetap bertingkat (<em>step-fixed costs</em>) seperti sewa pabrik tambahan atau mesin baru."
+          ],
+          reference: "Horngren, C. T., Datar, S. M., & Rajan, M. V. (Cost Accounting, 16th Edition, Bab 2)."
+        },
+        {
+          id: 7,
+          timeLimit: 150,
+          question: "Manakah contoh yang paling akurat mencerminkan biaya diskresioner (discretionary fixed cost)?",
+          options: [
+            "A. Biaya penyusutan gedung pabrik utama yang diatur kontrak jangka panjang.",
+            "B. Anggaran pelatihan karyawan dan riset pengembangan yang dapat dipangkas manajemen dalam jangka pendek.",
+            "C. Pajak bumi dan bangunan pabrik.",
+            "D. Gaji pokok direktur utama."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Biaya Diskresioner:</strong> Ditentukan oleh keputusan tahunan manajemen dan dapat dikurangi dalam jangka pendek tanpa melumpuhkan operasi inti perusahaan.",
+            "<strong>Biaya Terikat (Committed):</strong> Berkaitan dengan fasilitas fisik jangka panjang seperti depresiasi bangunan atau sewa kontrak permanen."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 2)."
+        },
+        {
+          id: 8,
+          timeLimit: 180,
+          question: "Biaya semivariabel (mixed cost) memiliki karakteristik unik berupa...",
+          options: [
+            "A. Hanya memiliki elemen tetap tanpa elemen variabel sama sekali.",
+            "B. Memiliki gabungan unsur biaya tetap (beban dasar) dan biaya variabel yang berubah proporsional terhadap aktivitas.",
+            "C. Berfluktuasi secara acak tanpa pola matematis.",
+            "D. Selalu bernilai konstan dalam berbagai rentang aktivitas."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Struktur Biaya Campuran:</strong> Terdiri dari beban dasar ketersediaan fasilitas ($a$) ditambah beban konsumsi variabel ($bX$)."
+          ],
+          reference: "Hansen & Mowen (Cornerstones of Managerial Accounting, 7th Edition, Bab 3)."
+        },
+        {
+          id: 9,
+          timeLimit: 150,
+          question: "Mengapa manajer operasional sangat memerlukan pemisahan perilaku biaya saat menyusun anggaran fleksibel (flexible budget)?",
+          options: [
+            "A. Agar laporan keuangan terlihat lebih rumit bagi auditor.",
+            "B. Karena anggaran fleksibel harus menyesuaikan tingkat beban berdasarkan volume aktivitas aktual yang dicapai.",
+            "C. Untuk menghilangkan seluruh biaya tetap dari laporan.",
+            "D. Agar pajak perusahaan dapat dikurangi."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Peran Pemisahan Biaya:</strong> Anggaran fleksibel mengkalkulasi ulang biaya variabel berdasarkan output riil ($b \\times Q_{aktual}$) dengan biaya tetap konstan ($a$)."
+          ],
+          reference: "Blocher, Stout, Juras, & Smith (Cost Management, 8th Edition, Bab 16)."
+        },
+        {
+          id: 10,
+          timeLimit: 180,
+          question: "Keunggulan utama analisis regresi kuadrat terkecil (least-squares regression) dibandingkan metode High-Low adalah...",
+          options: [
+            "A. Menggunakan seluruh titik data historis dan menghasilkan koefisien determinasi statistik (R-squared).",
+            "B. Perhitungannya jauh lebih cepat tanpa memerlukan komputer.",
+            "C. Hanya memerlukan dua titik data saja.",
+            "D. Kebal terhadap segala jenis kesalahan pencatatan akuntansi."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Optimasi Matematis:</strong> Regresi meminimalkan deviasi kuadrat ($\\sum (Y - \\hat{Y})^2$) pada 100% sampel data historis dan memberikan nilai $R^2$."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 10)."
+        }
+      ],
+      2: [
+        { 
+          id: 1, 
+          timeLimit: 180, 
+          question: "Mengapa perusahaan manufaktur menggunakan Tarif Overhead yang Ditentukan Dimuka (POOR) di awal periode alih-alih menunggu biaya overhead aktual di akhir periode?", 
+          options: [
+            "A. Karena biaya aktual tidak pernah dicatat dalam sistem akuntansi modern.",
+            "B. Agar manajemen dapat menetapkan harga jual dan menaksir harga pokok pesanan secara cepat saat pesanan diterima.",
+            "C. Agar perusahaan terbebas dari audit pajak.",
+            "D. Karena aturan akuntansi melarang penggunaan biaya aktual."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Ketepatan Waktu (Timeliness):</strong> Biaya overhead aktual baru diketahui penuh di akhir periode. Pelanggan membutuhkan harga dan tagihan segera saat pesanan selesai dikerjakan.",
+            "<strong>Pemerataan Musiman:</strong> POOR meratakan fluktuasi biaya bulanan (seperti tagihan listrik pendingin pabrik di musim kemarau)."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 3: Job-Order Costing)."
+        },
+        { 
+          id: 2, 
+          timeLimit: 180, 
+          question: "Bagaimanakah perlakuan akuntansi yang tepat jika selisih Underapplied Overhead pada akhir periode bernilai material (signifikan)?", 
+          options: [
+            "A. Langsung dihapuskan seluruhnya ke dalam akun Kas.",
+            "B. Dialokasikan kembali secara proporsional ke akun Barang Dalam Proses, Barang Jadi, dan Harga Pokok Penjualan.",
+            "C. Diabaikan karena tidak berdampak pada laba rugi.",
+            "D. Dicatat sebagai pendapatan lain-lain."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Metode Prorasi:</strong> Jika selisih bernilai material, penghapusan langsung ke HPP akan mendistorsi nilai persediaan akhir di neraca. Selisih diprorasikan ke WIP, Finished Goods, dan COGS."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 4: Job Costing)."
+        },
+        { 
+          id: 3, 
+          timeLimit: 150, 
+          question: "Dalam sistem Job Order Costing, dokumen manakah yang berfungsi sebagai buku besar pembantu untuk menghimpun biaya setiap nomor pesanan unik?", 
+          options: [
+            "A. Laporan Laba Rugi Konsolidasi",
+            "B. Job Cost Sheet (Lembar Biaya Pesanan)",
+            "C. Neraca Lajur Bulanan",
+            "D. Jurnal Pengeluaran Kas"
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Fungsi Dokumen:</strong> Job Cost Sheet bertindak sebagai buku pembantu akun Barang Dalam Proses (WIP) untuk merinci biaya per pesanan unik."
+          ],
+          reference: "Hansen & Mowen (Cornerstones of Managerial Accounting, 7th Edition, Bab 5)."
+        },
+        { 
+          id: 4, 
+          timeLimit: 150, 
+          question: "Industri manakah yang paling tepat menerapkan sistem Job Order Costing?", 
+          options: [
+            "A. Pabrik pembuat mi instan massal",
+            "B. Perusahaan galangan kapal pesiar custom dan kantor arsitek",
+            "C. Kilang penyulingan minyak mentah",
+            "D. Pabrik semen curah"
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Karakteristik:</strong> Diterapkan pada produk unik yang disesuaikan dengan spesifikasi pesanan konsumen (<em>customized</em>)."
+          ],
+          reference: "Blocher, Stout, Juras, & Smith (Cost Management, 8th Edition, Bab 4)."
+        },
+        { 
+          id: 5, 
+          timeLimit: 180, 
+          question: "Jika POOR adalah Rp50.000 per jam tenaga kerja langsung dan pesanan #05 menyerap 100 jam kerja serta bahan baku Rp2.000.000 (tanpa biaya lain), berapakah total biaya pesanan tersebut?", 
+          options: [
+            "A. Rp2.050.000",
+            "B. Rp5.000.000",
+            "C. Rp7.000.000",
+            "D. Rp10.000.000"
+          ],
+          correct: 2,
+          discussionPoints: [
+            "<strong>Kalkulasi:</strong> $\\text{Bahan Baku} = Rp2.000.000$. $\\text{Overhead Dibebankan} = 100 \\text{ jam} \\times Rp50.000 = Rp5.000.000$. Total = $Rp7.000.000$."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 3)."
+        },
+        {
+          id: 6,
+          timeLimit: 180,
+          question: "Mengapa penggunaan jam mesin sebagai dasar alokasi overhead lebih unggul dibandingkan jam tenaga kerja langsung pada pabrik yang sangat otomatis (high automation)?",
+          options: [
+            "A. Karena jam mesin lebih murah dicatat.",
+            "B. Karena sebagian besar biaya overhead digerakkan oleh pengoperasian mesin, bukan tenaga kerja manusia.",
+            "C. Karena jumlah tenaga kerja manusia di pabrik modern bernilai nol.",
+            "D. Karena diwajibkan oleh undang-undang ketenagakerjaan."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Hubungan Sebab-Akibat:</strong> Pada pabrik otomatis, depresiasi, listrik daya mesin, dan suku cadang mendominasi, sehingga jam mesin mencerminkan konsumsi sumber daya sesungguhnya."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 4 & 5)."
+        },
+        {
+          id: 7,
+          timeLimit: 150,
+          question: "Jurnal akuntansi saat bahan baku langsung dikeluarkan dari gudang ke lantai produksi dalam Job Order Costing adalah...",
+          options: [
+            "A. Dr. Persediaan Bahan Baku, Cr. Utang Usaha",
+            "B. Dr. Barang Dalam Proses (WIP), Cr. Persediaan Bahan Baku",
+            "C. Dr. Harga Pokok Penjualan, Cr. Kas",
+            "D. Dr. Pengendali Overhead, Cr. Persediaan Bahan Baku"
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Jurnal:</strong> Menambah persediaan produk aktif: Dr. Barang Dalam Proses (WIP), dan mengurangi persediaan bahan: Cr. Persediaan Bahan Baku."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 3)."
+        },
+        {
+          id: 8,
+          timeLimit: 180,
+          question: "Apa perbedaan mendasar antara tenaga kerja langsung dan tenaga kerja tidak langsung dalam kartu biaya pesanan?",
+          options: [
+            "A. Tenaga kerja langsung dapat ditelusuri secara fisik dan ekonomis langsung ke pesanan spesifik, sedangkan tenaga kerja tidak langsung masuk ke overhead.",
+            "B. Tenaga kerja langsung dibayar harian, sedangkan tenaga kerja tidak langsung dibayar bulanan.",
+            "C. Tenaga kerja langsung tidak dicatat dalam jurnal akuntansi.",
+            "D. Tidak ada perbedaan sama sekali."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Ketertelusuran:</strong> Tenaga kerja langsung ditelusuri langsung ke lembar biaya pesanan tertentu, sedangkan tenaga kerja tidak langsung ditampung di Pengendali Overhead."
+          ],
+          reference: "Blocher, Stout, Juras, & Smith (Cost Management, 8th Edition, Bab 4)."
+        },
+        {
+          id: 9,
+          timeLimit: 150,
+          question: "Apakah fungsi utama akun Pengendali Overhead Pabrik (Manufacturing Overhead Control) selama periode berjalan?",
+          options: [
+            "A. Menghitung laba bersih perusahaan secara otomatis.",
+            "B. Mencatat seluruh biaya overhead aktual di debit dan overhead yang dibebankan ke produksi di kredit.",
+            "C. Menyimpan cadangan kas perusahaan.",
+            "D. Menetapkan pajak penghasilan."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Akun Penampung Sementara:</strong> Sisi debit menampung biaya overhead riil, sisi kredit menampung overhead yang dibebankan ke pesanan ($POOR \\times \\text{Aktivitas Riil}$)."
+          ],
+          reference: "Hansen & Mowen (Cornerstones of Managerial Accounting, 7th Edition, Bab 5)."
+        },
+        {
+          id: 10,
+          timeLimit: 180,
+          question: "Ketika pesanan selesai dikerjakan dan dipindahkan ke gudang produk jadi, jurnal yang dicatat adalah...",
+          options: [
+            "A. Dr. Piutang Usaha, Cr. Penjualan",
+            "B. Dr. Persediaan Produk Jadi (Finished Goods), Cr. Barang Dalam Proses (WIP)",
+            "C. Dr. Harga Pokok Penjualan, Cr. Persediaan Produk Jadi",
+            "D. Dr. Kas, Cr. Persediaan Bahan Baku"
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Penyelesaian Fisik & Akuntansi:</strong> Memindahkan akumulasi biaya manufaktur dari Dr. Persediaan Produk Jadi dan Cr. Barang Dalam Proses."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 4)."
+        }
+      ],
+      3: [
+        { 
+          id: 1, 
+          timeLimit: 180, 
+          question: "Mengapa konsep 'Unit Ekuivalen' sangat esensial dalam sistem Process Costing?", 
+          options: [
+            "A. Karena seluruh unit di pabrik selalu selesai 100% secara instan.",
+            "B. Karena persediaan dalam proses belum selesai sepenuhnya sehingga harus dikonversi ke satuan setara unit jadi.",
+            "C. Karena digunakan untuk menghitung jumlah pajak penghasilan.",
+            "D. Untuk menghilangkan biaya tenaga kerja dari laporan."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Definisi:</strong> Unit Ekuivalen ($EUP = \\text{Unit Fisik} \\times \\% \\text{Penyelesaian}$) mengonversi unit dalam proses akhir menjadi unit ekuivalen selesai utuh agar biaya per unit dapat dihitung secara adil."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 4: Process Costing)."
+        },
+        { 
+          id: 2, 
+          timeLimit: 180, 
+          question: "Perbedaan utama metode Rata-rata Tertimbang (Weighted-Average) dan FIFO dalam Process Costing terletak pada...",
+          options: [
+            "A. Metode FIFO menggabungkan biaya persediaan awal dengan periode berjalan, sedangkan rata-rata memisahkannya.",
+            "B. Metode Rata-rata Tertimbang menggabungkan biaya persediaan awal dengan biaya periode berjalan tanpa membedakannya, sedangkan FIFO memisahkannya.",
+            "C. Metode FIFO tidak memerlukan perhitungan unit ekuivalen.",
+            "D. Metode Rata-rata hanya dapat digunakan untuk perusahaan jasa."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Metode Rata-rata:</strong> Mencampur biaya persediaan awal dengan biaya periode ini.",
+            "<strong>Metode FIFO:</strong> Memisahkan secara ketat output dan biaya periode lalu dari periode berjalan untuk evaluasi efisiensi murni."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 17)."
+        },
+        { 
+          id: 3, 
+          timeLimit: 150, 
+          question: "Jika 10.000 unit selesai ditransfer dan 2.000 unit WIP akhir ada dengan tingkat penyelesaian 50% untuk konversi, berapakah unit ekuivalen untuk biaya konversi?", 
+          options: [
+            "A. 10.000 unit",
+            "B. 11.000 unit",
+            "C. 12.000 unit",
+            "D. 1.000 unit"
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Perhitungan:</strong> $EUP = 10.000 + (2.000 \\times 50\\%) = 10.000 + 1.000 = 11.000 \\text{ unit ekuivalen}$."
+          ],
+          reference: "Hansen & Mowen (Cornerstones of Managerial Accounting, 7th Edition, Bab 6)."
+        },
+        { 
+          id: 4, 
+          timeLimit: 150, 
+          question: "Karakteristik operasional manakah yang mewajibkan penerapan sistem Process Costing?", 
+          options: [
+            "A. Produksi berdasarkan pesanan khusus pelanggan yang unik.",
+            "B. Produksi massal secara kontinu dengan produk yang homogen/identik.",
+            "C. Perusahaan jasa konsultasi hukum.",
+            "D. Pembuatan pesawat terbang pesanan khusus."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Lini Homogen:</strong> Dirancang untuk entitas yang memproduksi barang sejenis secara massal dan kontinu (semen, minyak, minuman botol)."
+          ],
+          reference: "Blocher, Stout, Juras, & Smith (Cost Management, 8th Edition, Bab 11)."
+        },
+        { 
+          id: 5, 
+          timeLimit: 180, 
+          question: "Urutan tahapan yang benar dalam penyusunan Laporan Biaya Produksi adalah...",
+          options: [
+            "A. Analisis arus fisik -> Perhitungan unit ekuivalen -> Perhitungan biaya per unit ekuivalen -> Rekonsiliasi dan pembagian biaya.",
+            "B. Perhitungan laba rugi -> Jurnal penutup -> Neraca saldo.",
+            "C. Penentuan harga jual -> Pembelian bahan -> Penjualan.",
+            "D. Alokasi overhead -> Penentuan pajak -> Audit."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Empat Tahap Standar:</strong> (1) Arus fisik unit, (2) Unit ekuivalen, (3) Total biaya dan biaya per EUP, (4) Pembebanan biaya ke barang selesai dan WIP akhir."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 4)."
+        },
+        {
+          id: 6,
+          timeLimit: 180,
+          question: "Bagaimanakah perlakuan persediaan produk dalam proses awal (beginning WIP) dalam metode FIFO?",
+          options: [
+            "A. Dicampur rata dengan biaya periode berjalan.",
+            "B. Diselesaikan terlebih dahulu pada periode berjalan sebelum memproses unit baru.",
+            "C. Langsung dihapuskan dari catatan akuntansi.",
+            "D. Dianggap sebagai produk rusak."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Asumsi Aliran:</strong> Persediaan awal diselesaikan pertama kali ($100\\% - \\% \\text{Awal}$) sebelum unit baru dikerjakan."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 17)."
+        },
+        {
+          id: 7,
+          timeLimit: 150,
+          question: "Apa yang dimaksud dengan proses produksi berurutan (sequential processing) dalam process costing?",
+          options: [
+            "A. Produk hanya diproses di satu mesin tunggal.",
+            "B. Produk melewati dua atau lebih departemen produksi secara berurutan.",
+            "C. Produk dikerjakan di luar negeri.",
+            "D. Produksi dihentikan setiap akhir minggu."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Alur Sekuensial:</strong> Output Departemen 1 ditransfer sebagai input Departemen 2 hingga menuju gudang produk jadi."
+          ],
+          reference: "Hansen & Mowen (Cornerstones of Managerial Accounting, 7th Edition, Bab 6)."
+        },
+        {
+          id: 8,
+          timeLimit: 180,
+          question: "Bagaimana perlakuan biaya dari departemen sebelumnya (transferred-in costs) pada departemen lanjutan?",
+          options: [
+            "A. Diabaikan dalam perhitungan.",
+            "B. Diperlakukan layaknya elemen bahan baku jenis khusus yang ditambahkan pada awal proses.",
+            "C. Dicatat sebagai pendapatan.",
+            "D. Dikurangkan dari total biaya produksi."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Tingkat Selesai 100%:</strong> Diperlakukan seperti bahan baku yang diterima di awal proses dengan tingkat penyelesaian 100% dari departemen penerima."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 17)."
+        },
+        {
+          id: 9,
+          timeLimit: 150,
+          question: "Mengapa tingkat penyelesaian bahan baku seringkali berbeda dengan tingkat penyelesaian biaya konversi untuk persediaan dalam proses akhir?",
+          options: [
+            "A. Karena bahan baku seringkali dimasukkan 100% di awal proses, sementara konversi diserap bertahap.",
+            "B. Karena kesalahan pencatatan akuntan pabrik.",
+            "C. Karena bahan baku memiliki berat yang lebih ringan.",
+            "D. Karena diatur dalam standar ISO."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Titik Masuk Bahan:</strong> Bahan baku umumnya dituangkan sekaligus di awal proses, sedangkan upah dan listrik mesin diserap bertahap seiring waktu."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 4)."
+        },
+        {
+          id: 10,
+          timeLimit: 180,
+          question: "Bagaimana laporan biaya produksi membantu manajemen pabrik kimia?",
+          options: [
+            "A. Memungkinkan manajemen memantau rincian biaya per unit ekuivalen dan mendeteksi lonjakan biaya secara periodik.",
+            "B. Menghapus kewajiban membayar pajak.",
+            "C. Menaikkan harga jual secara otomatis.",
+            "D. Menggantikan fungsi mesin pabrik."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Pengendalian Biaya:</strong> Memonitor biaya konversi dan bahan per EUP antar-minggu untuk mendeteksi pemborosan energi dan bahan."
+          ],
+          reference: "Blocher, Stout, Juras, & Smith (Cost Management, 8th Edition, Bab 11)."
+        }
+      ],
+      4: [
+        { 
+          id: 1, 
+          timeLimit: 180, 
+          question: "Mengapa sistem biaya tradisional cenderung mendistorsi harga pokok produk (menyebabkan subsidi silang) pada perusahaan dengan keragaman produk tinggi?", 
+          options: [
+            "A. Karena menggunakan pemicu berbasis volume yang gagal mencerminkan konsumsi sumber daya sesungguhnya oleh produk kompleks.",
+            "B. Karena tarif pajak terlalu tinggi.",
+            "C. Karena akuntan tradisional bekerja terlalu cepat.",
+            "D. Karena tidak ada biaya overhead dalam sistem tradisional."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Subsidi Silang:</strong> Sistem tradisional membebankan overhead berbasis volume sehingga produk berkuantitas tinggi menanggung beban produk kompleks berkategori khusus."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 5: ABC & ABM)."
+        },
+        { 
+          id: 2, 
+          timeLimit: 180, 
+          question: "Apa perbedaan antara batch-level activity dan product-level activity dalam hirarki biaya Activity-Based Costing?", 
+          options: [
+            "A. Batch-level dilakukan per batch produksi (misal set-up), sedangkan product-level mendukung lini produk spesifik terlepas dari jumlah batch.",
+            "B. Product-level dilakukan setiap jam, sedangkan batch-level setahun sekali.",
+            "C. Tidak ada perbedaan dalam hirarki ABC.",
+            "D. Batch-level hanya untuk perusahaan jasa."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Batch-Level:</strong> Dipicu per batch produksi (setup mesin, pesanan pembelian).",
+            "<strong>Product-Level:</strong> Menopang seluruh lini produk (desain teknik, riset pasar spesifik produk)."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 7: ABC)."
+        },
+        { 
+          id: 3, 
+          timeLimit: 150, 
+          question: "Kriteria utama dalam memilih cost driver yang baik dalam sistem ABC adalah...",
+          options: [
+            "A. Hubungan sebab-akibat (cause-and-effect) yang kuat dan kemudahan pengukuran.",
+            "B. Biaya pengumpulan data yang paling mahal.",
+            "C. Dipilih secara acak oleh manajemen.",
+            "D. Sesuai dengan keinginan auditor eksternal."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Kriteria Utama:</strong> Adanya relasi kausal yang jelas antara pemicu biaya dan konsumsi sumber daya serta biaya pengukuran yang ekonomis."
+          ],
+          reference: "Blocher, Stout, Juras, & Smith (Cost Management, 8th Edition, Bab 5)."
+        },
+        { 
+          id: 4, 
+          timeLimit: 150, 
+          question: "Mengapa aktivitas pemeliharaan fasilitas umum pabrik dikategorikan sebagai facility-level activity?",
+          options: [
+            "A. Karena dapat ditelusuri langsung ke setiap unit produk.",
+            "B. Karena menopang pabrik secara keseluruhan dan tidak dapat ditelusuri ke produk atau batch tertentu.",
+            "C. Karena hanya dilakukan sekali seumur hidup pabrik.",
+            "D. Karena dikelola oleh pemasok luar."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Karakteristik Fasilitas:</strong> Biaya (gedung, penerangan, satpam) menjaga keberlangsungan organisasi secara keseluruhan tanpa korelasi langsung ke unit atau batch tertentu."
+          ],
+          reference: "Hansen & Mowen (Cornerstones of Managerial Accounting, 7th Edition, Bab 4)."
+        },
+        { 
+          id: 5, 
+          timeLimit: 180, 
+          question: "Perusahaan jenis apa yang paling besar memperoleh manfaat strategis saat beralih ke Activity-Based Costing (ABC)?",
+          options: [
+            "A. Perusahaan dengan keragaman produk tinggi dan rasio biaya overhead yang sangat tinggi.",
+            "B. Perusahaan tunggal dengan satu jenis produk homogen berbiaya tenaga kerja tinggi.",
+            "C. Koperasi simpan pinjam skala mikro.",
+            "D. Perusahaan dagang eceran tanpa persediaan."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Kondisi Ideal:</strong> Rasio overhead besar dan keragaman lini produk tinggi dalam ukuran batch, kerumitan, dan volume."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 5)."
+        },
+        {
+          id: 6,
+          timeLimit: 180,
+          question: "Sebutkan 4 tingkatan aktivitas (hierarchy of activities) dalam Activity-Based Costing secara berurutan.",
+          options: [
+            "A. Unit-level, Batch-level, Product-level, Facility-level",
+            "B. Kas, Piutang, Persediaan, Utang",
+            "C. Perencanaan, Pelaksanaan, Pengawasan, Evaluasi",
+            "D. Pendapatan, Biaya, Laba, Rugi"
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>4 Tingkatan:</strong> Unit-level, Batch-level, Product-sustaining level, dan Facility-sustaining level."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 7)."
+        },
+        {
+          id: 7,
+          timeLimit: 150,
+          question: "Apa perbedaan pemicu transaksi (transaction drivers) dan pemicu durasi (duration drivers)?",
+          options: [
+            "A. Pemicu transaksi menghitung berapa kali aktivitas dilakukan, sedangkan pemicu durasi mengukur berapa lama waktu yang dihabiskan.",
+            "B. Pemicu transaksi mengukur berat bahan baku.",
+            "C. Pemicu durasi hanya digunakan untuk gaji direksi.",
+            "D. Keduanya memiliki arti yang sama persis."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Pemicu Transaksi:</strong> Menghitung frekuensi kejadian (jumlah setup).",
+            "<strong>Pemicu Durasi:</strong> Mengukur lama waktu penggunaan sumber daya (jam setup)."
+          ],
+          reference: "Blocher, Stout, Juras, & Smith (Cost Management, 8th Edition, Bab 5)."
+        },
+        {
+          id: 8,
+          timeLimit: 180,
+          question: "Bagaimana sistem ABC membantu manajemen dalam melakukan Activity-Based Management (ABM)?",
+          options: [
+            "A. Membedakan aktivitas bernilai tambah dan tak bernilai tambah untuk eliminasi pemborosan.",
+            "B. Menghapus seluruh departemen pemasaran.",
+            "C. Menaikkan gaji seluruh karyawan pabrik.",
+            "D. Mengurangi jam kerja menjadi 2 jam sehari."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Analisis Nilai:</strong> Mengidentifikasi aktivitas non-value-added (seperti penundaan, penyimpanan berlebih, cacat) untuk direduksi atau dieliminasi."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 5)."
+        },
+        {
+          id: 9,
+          timeLimit: 150,
+          question: "Mengapa perusahaan dengan proses produksi tunggal yang sangat homogen kurang mendapat manfaat signifikan dari ABC?",
+          options: [
+            "A. Karena tidak ada distorsi biaya silang antarproduk; sistem tradisional dan ABC menghasilkan alokasi yang identik.",
+            "B. Karena sistem ABC dilarang untuk produk tunggal.",
+            "C. Karena produk tunggal tidak memiliki biaya overhead.",
+            "D. Karena laba perusahaan terlalu tinggi."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Ketiadaan Keragaman:</strong> Semua biaya overhead dikonsumsi oleh satu jenis komoditas yang sama, sehingga hasilnya sama persis dengan sistem konvensional."
+          ],
+          reference: "Hansen & Mowen (Cornerstones of Managerial Accounting, 7th Edition, Bab 4)."
+        },
+        {
+          id: 10,
+          timeLimit: 180,
+          question: "Langkah pertama yang harus dilakukan dalam perancangan sistem ABC adalah...",
+          options: [
+            "A. Mengidentifikasi dan mendefinisikan aktivitas-aktivitas utama yang mengonsumsi sumber daya overhead.",
+            "B. Langsung membeli perangkat lunak komputer mahal.",
+            "C. Memecat seluruh supervisor pabrik.",
+            "D. Menjual pabrik ke investor asing."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Analisis Aktivitas:</strong> Mengidentifikasi pekerjaan operasional yang menyerap sumber daya untuk membentuk kumpulan biaya aktivitas (<em>activity cost pools</em>)."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 7)."
+        }
+      ],
+      5: [
+        { 
+          id: 1, 
+          timeLimit: 180, 
+          question: "Apa definisi Margin Kontribusi per unit dan apa kegunaan Rasio Margin Kontribusi?", 
+          options: [
+            "A. Harga jual dikurangi biaya variabel per unit; rasionya menunjukkan persentase penjualan yang tersedia untuk menutup biaya tetap dan laba.",
+            "B. Penjualan dikurangi Harga Pokok Penjualan.",
+            "C. Laba bersih dibagi total aset perusahaan.",
+            "D. Biaya tetap dibagi jumlah unit terjual."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Margin Kontribusi:</strong> $CM = P - V$. Rasio CM = $\\frac{P - V}{P}$. Menunjukkan persentase per rupiah penjualan yang menutup biaya tetap sebelum mencetak laba bersih."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 5: CVP Relationships)."
+        },
+        { 
+          id: 2, 
+          timeLimit: 180, 
+          question: "Pada titik impas (Break-Even Point), berapakah besarnya laba operasional perusahaan?", 
+          options: [
+            "A. Sama dengan total biaya tetap.",
+            "B. Nol (0), karena total pendapatan penjualan tepat sama dengan total biaya.",
+            "C. Maksimal sesuai kapasitas pabrik.",
+            "D. Negatif."
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Kondisi Impas:</strong> Pendapatan Total = Biaya Total, sehingga Laba Operasional = $0$."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 3: CVP Analysis)."
+        },
+        { 
+          id: 3, 
+          timeLimit: 150, 
+          question: "Jika harga jual Rp10.000, biaya variabel Rp4.000, dan biaya tetap total Rp60.000.000, berapakah titik impas (BEP) dalam unit?", 
+          options: [
+            "A. 6.000 unit",
+            "B. 10.000 unit",
+            "C. 15.000 unit",
+            "D. 60.000 unit"
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Kalkulasi:</strong> $CM = Rp10.000 - Rp4.000 = Rp6.000$. $Q_{BEP} = \\frac{Rp60.000.000}{Rp6.000} = 10.000 \\text{ unit}$."
+          ],
+          reference: "Hansen & Mowen (Cornerstones of Managerial Accounting, 7th Edition, Bab 11)."
+        },
+        { 
+          id: 4, 
+          timeLimit: 150, 
+          question: "Apa yang diukur oleh indikator Margin of Safety (Margin Keamanan) bagi manajemen?", 
+          options: [
+            "A. Seberapa besar penurunan penjualan yang dapat ditoleransi sebelum perusahaan mulai mengalami kerugian.",
+            "B. Jumlah kas di bank saat ini.",
+            "C. Tingkat keselamatan kerja karyawan di pabrik.",
+            "D. Jumlah persediaan pengaman di gudang."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Margin of Safety:</strong> Selisih lebih antara penjualan yang dianggarkan atau aktual di atas titik impas, berfungsi sebagai bantalan risiko rugi."
+          ],
+          reference: "Blocher, Stout, Juras, & Smith (Cost Management, 8th Edition, Bab 9)."
+        },
+        { 
+          id: 5, 
+          timeLimit: 180, 
+          question: "Jika target laba sebelum pajak Rp30.000.000 dengan biaya tetap Rp60.000.000 dan margin kontribusi Rp6.000 per unit, berapa unit yang harus dijual?", 
+          options: [
+            "A. 10.000 unit",
+            "B. 15.000 unit",
+            "C. 20.000 unit",
+            "D. 25.000 unit"
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Kalkulasi:</strong> $Q = \\frac{Rp60.000.000 + Rp30.000.000}{Rp6.000} = \\frac{Rp90.000.000}{Rp6.000} = 15.000 \\text{ unit}$."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 5)."
+        },
+        {
+          id: 6,
+          timeLimit: 180,
+          question: "Apa yang dimaksud dengan Operating Leverage (Pengungkit Operasi)?",
+          options: [
+            "A. Sensitivitas perubahan laba operasional terhadap perubahan penjualan akibat proporsi biaya tetap.",
+            "B. Jumlah utang bank jangka panjang.",
+            "C. Jumlah mesin otomatis di pabrik.",
+            "D. Tingkat suku bunga pinjaman."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Operating Leverage:</strong> Derajat pengungkit ($DOL = \\frac{\\text{Total } CM}{\\text{Laba Operasional}}$) mengukur kelipatan kenaikan laba saat pendapatan penjualan bertambah."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 3)."
+        },
+        {
+          id: 7,
+          timeLimit: 150,
+          question: "Bagaimana cara menghitung Titik Impas untuk perusahaan dengan bauran penjualan multiproduk (sales mix konstan)?",
+          options: [
+            "A. Membagi total biaya tetap dengan Margin Kontribusi Rata-rata Tertimbang paket produk.",
+            "B. Menjumlahkan seluruh harga jual produk.",
+            "C. Menggunakan metode High-Low.",
+            "D. Tidak dapat dihitung."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Bauran Multiproduk:</strong> Biaya tetap dibagi rata-rata tertimbang margin kontribusi per paket produk berdasarkan proporsi bauran."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 5)."
+        },
+        {
+          id: 8,
+          timeLimit: 180,
+          question: "Manakah yang merupakan asumsi dasar model Analisis Cost-Volume-Profit (CVP)?",
+          options: [
+            "A. Harga jual dan biaya bersifat linear, serta tingkat persediaan konstan (unit diproduksi sama dengan unit terjual).",
+            "B. Harga jual selalu berfluktuasi bebas setiap hari.",
+            "C. Biaya tetap dapat berubah menjadi biaya variabel sesuka hati.",
+            "D. Perusahaan selalu mengalami kerugian."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Asumsi Kunci:</strong> Linearitas pendapatan dan biaya dalam rentang relevan serta persediaan stabil (Unit Diproduksi = Unit Terjual)."
+          ],
+          reference: "Hansen & Mowen (Cornerstones of Managerial Accounting, 7th Edition, Bab 11)."
+        },
+        {
+          id: 9,
+          timeLimit: 150,
+          question: "Perbedaan antara Contribution Margin dan Gross Margin adalah...",
+          options: [
+            "A. Gross Margin dihitung dari penjualan dikurangi HPP, sedangkan Contribution Margin dikurangi seluruh biaya variabel (produksi & nonproduksi).",
+            "B. Keduanya adalah istilah yang sama persis.",
+            "C. Gross Margin hanya untuk perusahaan jasa.",
+            "D. Contribution Margin tidak memperhitungkan biaya variabel."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Klasifikasi:</strong> Gross margin berbasis fungsi pabrikasi, sedangkan contribution margin berbasis perilaku biaya variabel total."
+          ],
+          reference: "Blocher, Stout, Juras, & Smith (Cost Management, 8th Edition, Bab 9)."
+        },
+        {
+          id: 10,
+          timeLimit: 180,
+          question: "Jika tarif pajak 25% dan target laba setelah pajak Rp45.000.000, berapa target laba sebelum pajak yang digunakan dalam rumus CVP?",
+          options: [
+            "A. Rp45.000.000",
+            "B. Rp60.000.000",
+            "C. Rp50.000.000",
+            "D. Rp90.000.000"
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Konversi Pajak:</strong> $\\text{Laba Sebelum Pajak} = \\frac{Rp45.000.000}{1 - 0.25} = \\frac{Rp45.000.000}{0.75} = Rp60.000.000$."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 3)."
+        }
+      ],
+      6: [
+        { 
+          id: 1, 
+          timeLimit: 180, 
+          question: "Mengapa Anggaran Penjualan (Sales Budget) selalu diletakkan sebagai titik awal penyusunan Master Budget?", 
+          options: [
+            "A. Karena seluruh aktivitas operasional (produksi, pembelian, tenaga kerja) sangat bergantung pada volume penjualan.",
+            "B. Karena anggaran penjualan paling mudah dibuat.",
+            "C. Diwajibkan oleh kantor pajak.",
+            "D. Karena kas perusahaan bersumber dari penjualan."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Titik Tolak Utama:</strong> Anggaran penjualan mendikte jumlah unit produksi yang diperlukan, yang pada gilirannya mendikte kebutuhan bahan, tenaga kerja, dan arus kas."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 8: Master Budgeting)."
+        },
+        { 
+          id: 2, 
+          timeLimit: 180, 
+          question: "Formula lengkap untuk menghitung jumlah unit yang harus diproduksi dalam Anggaran Produksi adalah...",
+          options: [
+            "A. Target Penjualan + Persediaan Akhir Produk Jadi - Persediaan Awal Produk Jadi.",
+            "B. Target Penjualan - Persediaan Akhir + Persediaan Awal.",
+            "C. Pembelian Bahan Baku + Tenaga Kerja.",
+            "D. Kas Masuk - Kas Keluar."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Formula Produksi:</strong> $\\text{Unit Produksi} = \\text{Target Penjualan} + \\text{Target Persediaan Akhir} - \\text{Persediaan Awal}$."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 6: Master Budget)."
+        },
+        { 
+          id: 3, 
+          timeLimit: 150, 
+          question: "Apa muara akhir dari seluruh penyusunan anggaran operasional dalam Master Budget?", 
+          options: [
+            "A. Laporan Laba Rugi Proforma dan Anggaran Kas.",
+            "B. Daftar hadir karyawan pabrik.",
+            "C. Surat peringatan manajemen.",
+            "D. Laporan audit eksternal."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Muara:</strong> Seluruh anggaran komponen bermuara pada Laporan Laba Rugi Proforma, Anggaran Kas, dan Neraca Proforma."
+          ],
+          reference: "Blocher, Stout, Juras, & Smith (Cost Management, 8th Edition, Bab 10)."
+        },
+        { 
+          id: 4, 
+          timeLimit: 150, 
+          question: "Bagaimana perlakuan pencatatan penerimaan kas dari penjualan kredit dalam Anggaran Kas?",
+          options: [
+            "A. Dicatat pada saat kas riil benar-benar diterima dari penagihan piutang, bukan saat penjualan terjadi.",
+            "B. Dicatat pada hari pertama tahun anggaran.",
+            "C. Diabaikan karena bukan kas tunai.",
+            "D. Dicatat sebagai utang usaha."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Basis Kas:</strong> Anggaran kas hanya mencatat saat uang tunai masuk dari penagihan pelanggan berdasarkan jadwal penagihan piutang."
+          ],
+          reference: "Hansen & Mowen (Cornerstones of Managerial Accounting, 7th Edition, Bab 9)."
+        },
+        { 
+          id: 5, 
+          timeLimit: 180, 
+          question: "Jika target penjualan 5.000 unit, persediaan akhir 800 unit, dan persediaan awal 500 unit, berapakah unit yang harus diproduksi?", 
+          options: [
+            "A. 5.000 unit",
+            "B. 5.300 unit",
+            "C. 4.700 unit",
+            "D. 5.800 unit"
+          ],
+          correct: 1,
+          discussionPoints: [
+            "<strong>Perhitungan:</strong> $5.000 + 800 - 500 = 5.300 \\text{ unit}$."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 8)."
+        },
+        {
+          id: 6,
+          timeLimit: 180,
+          question: "Apa peran Komite Anggaran (Budget Committee) dalam organisasi perusahaan?",
+          options: [
+            "A. Mengawasi koordinasi antar-departemen, menyelesaikan konflik target, dan menyelaraskan anggaran dengan strategi.",
+            "B. Membayar gaji seluruh staf.",
+            "C. Melakukan audit pajak tahunan.",
+            "D. Menjual produk langsung ke konsumen."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Fungsi Koordinasi:</strong> Menyelaraskan sasaran antar-divisi dan menyelesaikan tarik-ulur alokasi sumber daya perusahaan."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 6)."
+        },
+        {
+          id: 7,
+          timeLimit: 150,
+          question: "Apa perbedaan anggaran partisipatif dan anggaran top-down?",
+          options: [
+            "A. Anggaran partisipatif melibatkan manajer level bawah untuk meningkatkan motivasi, sedangkan top-down disusun langsung manajemen puncak.",
+            "B. Anggaran partisipatif hanya untuk perusahaan besar.",
+            "C. Anggaran top-down tidak memerlukan angka.",
+            "D. Keduanya sama persis."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Partisipatif (Bottom-Up):</strong> Disusun dengan masukan manajer lini bawah sehingga meningkatkan komitmen dan akurasi kondisi riil."
+          ],
+          reference: "Blocher, Stout, Juras, & Smith (Cost Management, 8th Edition, Bab 10)."
+        },
+        {
+          id: 8,
+          timeLimit: 180,
+          question: "Bagaimana cara menyusun Anggaran Tenaga Kerja Langsung setelah Anggaran Produksi selesai?",
+          options: [
+            "A. Mengalikan unit produksi dengan standar jam per unit untuk mendapat total jam, lalu dikalikan tarif upah per jam.",
+            "B. Membagi total kas dengan jumlah mesin.",
+            "C. Menjumlahkan seluruh biaya tetap.",
+            "D. Menggunakan metode High-Low."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Langkah:</strong> Total Jam = Unit Produksi $\\times$ Standar Jam/Unit. Biaya = Total Jam $\\times$ Tarif Standar Upah."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 8)."
+        },
+        {
+          id: 9,
+          timeLimit: 150,
+          question: "Apa yang dimaksud dengan Budget Slack (kelonggaran anggaran)?",
+          options: [
+            "A. Tindakan sengaja merendahkan proyeksi pendapatan atau meninggikan biaya agar target kinerja mudah dicapai.",
+            "B. Kekurangan kas di bank.",
+            "C. Jam istirahat karyawan pabrik.",
+            "D. Sisa bahan baku di gudang."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Perilaku Oportunistik:</strong> Manajer membuat bantalan target agar penilaian kinerja dan bonus mereka aman."
+          ],
+          reference: "Hansen & Mowen (Cornerstones of Managerial Accounting, 7th Edition, Bab 9)."
+        },
+        {
+          id: 10,
+          timeLimit: 180,
+          question: "Keterkaitan Anggaran Kas dengan Neraca Proforma adalah...",
+          options: [
+            "A. Saldo kas akhir dari Anggaran Kas dimasukkan ke pos Kas di Neraca Proforma.",
+            "B. Tidak ada keterkaitan sama sekali.",
+            "C. Anggaran kas menggantikan neraca.",
+            "D. Neraca proforma mendahului anggaran kas."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Integrasi Neraca:</strong> Saldo akhir kas menjadi nilai aset lancar Kas pada Neraca Proforma akhir periode."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 6)."
+        }
+      ],
+      7: [
+        { 
+          id: 1, 
+          timeLimit: 180, 
+          question: "Bagaimana rumus perhitungan Direct Materials Price Variance (DMPV) dan siapa pihak yang paling bertanggung jawab?", 
+          options: [
+            "A. Kuantitas Aktual Dibeli x (Harga Aktual - Harga Standar); Manajer Pembelian (Purchasing Manager).",
+            "B. (Kuantitas Aktual - Kuantitas Standar) x Harga Standar; Manajer Produksi.",
+            "C. Jam Aktual x Tarif Upah; Manajer HRD.",
+            "D. Total Penjualan - HPP; Direktur Utama."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>DMPV:</strong> $DMPV = AQ \\times (AP - SP)$. Menjadi tanggung jawab Manajer Pembelian/Pengadaan atas negosiasi harga dan pemilihan pemasok."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 9: Variance Analysis)."
+        },
+        { 
+          id: 2, 
+          timeLimit: 180, 
+          question: "Kapan suatu varians biaya dikategorikan sebagai Favorable (Menguntungkan)?", 
+          options: [
+            "A. Jika biaya aktual lebih rendah dari biaya standar.",
+            "B. Jika biaya aktual lebih tinggi dari biaya standar.",
+            "C. Jika perusahaan mengalami kerugian bersih.",
+            "D. Jika produksi dihentikan."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Kriteria Favorable:</strong> Biaya Aktual < Biaya Standar yang Diizinkan, sehingga berkontribusi menaikkan laba operasional."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 7)."
+        },
+        { 
+          id: 3, 
+          timeLimit: 150, 
+          question: "Apa yang diukur oleh Direct Materials Quantity Variance (DMQV)?", 
+          options: [
+            "A. Efisiensi penggunaan fisik kuantitas bahan baku dalam proses produksi.",
+            "B. Kenaikan harga bahan baku di pasar internasional.",
+            "C. Jumlah jam kerja mesin pabrik.",
+            "D. Gaji manajer pembelian."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>DMQV:</strong> $DMQV = SP \\times (AQ_{pakai} - SQ)$. Mengukur efisiensi fisik pemakaian bahan di pabrik dibandingkan standar teknik."
+          ],
+          reference: "Hansen & Mowen (Cornerstones of Managerial Accounting, 7th Edition, Bab 10)."
+        },
+        { 
+          id: 4, 
+          timeLimit: 150, 
+          question: "Siapa pihak operasional yang paling bertanggung jawab atas Direct Materials Quantity Variance (DMQV)?", 
+          options: [
+            "A. Manajer Produksi (Production Manager) karena mengawasi penggunaan bahan dan sisa limbah di lantai pabrik.",
+            "B. Manajer Pemasaran.",
+            "C. Konsultan hukum perusahaan.",
+            "D. Pemegang saham utama."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Tanggung Jawab Produksi:</strong> Manajer Produksi mengawasi keahlian pekerja, metode pemotongan, dan pengendalian sisa limbah (*scrap*)."
+          ],
+          reference: "Blocher, Stout, Juras, & Smith (Cost Management, 8th Edition, Bab 14)."
+        },
+        { 
+          id: 5, 
+          timeLimit: 180, 
+          question: "Standar harga bahan Rp10.000/kg, standar pemakaian 3 kg/unit. Aktual 1.000 unit memakai 3.200 kg seharga Rp9.500/kg (dibeli dan dipakai sama). Hitung DMPV.", 
+          options: [
+            "A. -Rp1.600.000 (Favorable)",
+            "B. +Rp1.600.000 (Unfavorable)",
+            "C. Rp0",
+            "D. -Rp500.000"
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Kalkulasi:</strong> $DMPV = 3.200 \\times (Rp9.500 - Rp10.000) = 3.200 \\times (-Rp500) = -Rp1.600.000$ (Favorable)."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 9)."
+        },
+        {
+          id: 6,
+          timeLimit: 180,
+          question: "Mengapa DMPV lebih ideal dihitung pada saat bahan dibeli daripada saat dipakai?",
+          options: [
+            "A. Agar penyimpangan harga segera terdeteksi dan dilaporkan lebih cepat kepada manajemen tanpa menunggu masuk produksi.",
+            "B. Karena aturan perpajakan mengharuskannya.",
+            "C. Agar perhitungan lebih rumit.",
+            "D. Tidak ada keunggulan khusus."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Umpan Balik Dini:</strong> Mendeteksi lonjakan harga saat barang tiba di gudang dan memungkinkan pembukuan persediaan pada harga standar."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 7)."
+        },
+        {
+          id: 7,
+          timeLimit: 150,
+          question: "Rumus untuk Direct Labor Rate Variance (DLRV) dan Direct Labor Efficiency Variance (DLEV) adalah...",
+          options: [
+            "A. DLRV = Jam Aktual x (Tarif Aktual - Tarif Standar); DLEV = Tarif Standar x (Jam Aktual - Jam Standar Diizinkan).",
+            "B. DLRV = (Jam Aktual - Jam Standar) x Tarif Aktual.",
+            "C. DLEV = Harga Beli x Kuantitas.",
+            "D. Keduanya menggunakan tarif pasar bebas."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Rumus Standar:</strong> $DLRV = AH \\times (AR - SR)$ dan $DLEV = SR \\times (AH - SH)$."
+          ],
+          reference: "Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition, Bab 9)."
+        },
+        {
+          id: 8,
+          timeLimit: 180,
+          question: "Mengapa analisis varians sangat penting dalam Management by Exception?",
+          options: [
+            "A. Memungkinkan manajer memfokuskan perhatian hanya pada selisih signifikan yang menyimpang dari standar.",
+            "B. Menghapuskan seluruh laporan keuangan bulanan.",
+            "C. Mengurangi gaji karyawan yang kinerjanya buruk.",
+            "D. Memastikan tidak ada pajak yang harus dibayar."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Manajemen Pengecualian:</strong> Waktu eksekutif difokuskan untuk menyelidiki pos biaya yang deviasinya melampaui ambang batas toleransi."
+          ],
+          reference: "Blocher, Stout, Juras, & Smith (Cost Management, 8th Edition, Bab 14)."
+        },
+        {
+          id: 9,
+          timeLimit: 150,
+          question: "Apa risiko manajerial jika perusahaan menetapkan standar biaya produksi yang terlalu ketat (tight standards)?",
+          options: [
+            "A. Menurunkan motivasi kerja, memicu frustrasi, dan meningkatkan tingkat kecacatan produk karena pekerja terburu-buru.",
+            "B. Perusahaan pasti akan mendapat laba 100%.",
+            "C. Karyawan akan bekerja 24 jam sehari.",
+            "D. Tidak ada risiko sama sekali."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Dampak Psikologis:</strong> Standar ideal yang tidak realistis memicu frustrasi dan pengabaian standar oleh pekerja pabrik."
+          ],
+          reference: "Hansen & Mowen (Cornerstones of Managerial Accounting, 7th Edition, Bab 10)."
+        },
+        {
+          id: 10,
+          timeLimit: 180,
+          question: "Bagaimana hubungan antara varians kuantitas bahan baku dan varians efisiensi tenaga kerja?",
+          options: [
+            "A. Keduanya mengukur efisiensi fisik input; penggunaan bahan baku yang buruk sering berkorelasi dengan ketidakefisiensi jam kerja di pabrik.",
+            "B. Keduanya tidak saling berhubungan.",
+            "C. Varians bahan baku selalu bernilai positif.",
+            "D. Varians tenaga kerja selalu menutupi varians bahan."
+          ],
+          correct: 0,
+          discussionPoints: [
+            "<strong>Trade-off Antar-Varians:</strong> Pembelian bahan berkualitas rendah meningkatkan limbah bahan (DMQV Unfavorable) sekaligus memperlambat pengerjaan (DLEV Unfavorable)."
+          ],
+          reference: "Horngren, Datar, & Rajan (Cost Accounting, 16th Edition, Bab 7)."
+        }
+      ]
+    };
+
+    const meetingsData = [
+      { num: 1, title: "Perilaku Biaya & Klasifikasi", desc: "Analisis biaya tetap, variabel, dan metode high-low." },
+      { num: 2, title: "Job Order Costing", desc: "Tarif predetermined overhead dan akumulasi biaya pesanan." },
+      { num: 3, title: "Process Costing", desc: "Unit ekuivalen dan laporan biaya produksi departemen." },
+      { num: 4, title: "Activity-Based Costing (ABC)", desc: "Distribusi aktivitas tingkat batch, unit, dan fasilitas." },
+      { num: 5, title: "Analisis Cost-Volume-Profit (CVP)", desc: "Margin kontribusi, BEP, dan target laba operasional." },
+      { num: 6, title: "Penganggaran Operasional", desc: "Master budget: penjualan, produksi, dan bahan baku." },
+      { num: 7, title: "Akuntansi Pertanggungjawaban & Varians", desc: "Analisis selisih harga dan kuantitas bahan baku." }
+    ];
+
+    let currentView = 'welcome';
+    let globalSession = { 
+      isOpen: false, 
+      activeMeeting: 1, 
+      gameTitle: "Pertemuan 1: Perilaku Biaya & Klasifikasi" 
+    };
+    let groupsList = [];
+    let selectedGroup = null;
+    let currentCaseIndex = 0;
+    let selectedAnswers = {};
+    let caseSubmitted = {};
+    let timeLeft = 180;
+    let timerInterval = null;
+    let meetingDiscussionNum = 1;
+    let targetManageGroupId = null;
+
+    let app = null;
+    let auth = null;
+    let db = null;
+    let currentUser = null;
+
+    async function initMultiDeviceSync() {
+      renderApp();
+
+      try {
+        app = initializeApp(myFirebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+
+        try {
+          await signInAnonymously(auth);
+        } catch (authErr) {
+          console.warn("Otentikasi Firebase:", authErr.message);
+        }
+
+        currentUser = auth.currentUser;
+        onAuthStateChanged(auth, function(user) {
+          if (user) {
+            currentUser = user;
+          }
+        });
+
+        setupCloudListeners();
+      } catch (err) {
+        console.warn("Multi-device cloud fallback aktif:", err);
+      }
+    }
+
+    function setupCloudListeners() {
+      if (!db) return;
+
+      const sessionDocRef = doc(db, 'mancount_state', 'session');
+      onSnapshot(sessionDocRef, function(docSnap) {
+        if (docSnap.exists()) {
+          const cloudSession = docSnap.data();
+          const prevOpen = globalSession.isOpen;
+          const prevMeeting = globalSession.activeMeeting;
+          globalSession = cloudSession;
+
+          if (prevOpen !== globalSession.isOpen) {
+            showToast(globalSession.isOpen ? 'Sesi Permainan DIBUKA oleh Dosen!' : 'Sesi Permainan DITUTUP oleh Dosen.', globalSession.isOpen ? 'success' : 'info');
+          } else if (prevMeeting !== globalSession.activeMeeting) {
+            showToast('Dosen mengalihkan modul ke Pertemuan ' + globalSession.activeMeeting, 'info');
+            if (selectedGroup) {
+              syncGroupMeetingProgress(selectedGroup);
+            }
+          }
+          renderApp();
+        } else {
+          setDoc(sessionDocRef, globalSession).catch(function() {});
+        }
+      }, function(err) {
+        console.warn("Session snapshot listener warning:", err);
+      });
+
+      const groupsCollRef = collection(db, 'mancount_groups');
+      onSnapshot(groupsCollRef, function(snapshot) {
+        const cloudGroups = [];
+        snapshot.forEach(function(d) {
+          cloudGroups.push(Object.assign({ id: d.id }, d.data()));
+        });
+        groupsList = cloudGroups;
+
+        if (selectedGroup) {
+          const matched = cloudGroups.find(function(g) { return g.id === selectedGroup.id; });
+          if (matched) {
+            selectedGroup = matched;
+            syncGroupMeetingProgress(matched);
+          }
+        }
+        renderApp();
+      }, function(err) {
+        console.warn("Groups snapshot listener warning:", err);
+      });
+    }
+
+    function syncGroupMeetingProgress(group) {
+      if (!group) return;
+      const comp = group.completedCases || {};
+      const curRec = comp[globalSession.activeMeeting] || { answers: {} };
+      if (curRec.answers) {
+        Object.keys(curRec.answers).forEach(function(cId) {
+          selectedAnswers[cId] = curRec.answers[cId].chosen;
+          caseSubmitted[cId] = true;
+        });
+      }
+    }
+
+    function showToast(message, type) {
+      if (!type) type = 'success';
+      const toast = document.getElementById('notification-toast');
+      const content = document.getElementById('toast-content');
+      document.getElementById('toast-message').innerText = message;
+      
+      content.className = 'px-4 sm:px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 border ' + (
+        type === 'success' ? 'bg-emerald-950/95 border-emerald-500 text-emerald-100' :
+        type === 'info' ? 'bg-blue-950/95 border-blue-500 text-blue-100' :
+        'bg-rose-950/95 border-rose-500 text-rose-100'
+      );
+
+      toast.classList.remove('hidden');
+      setTimeout(function() {
+        toast.classList.add('hidden');
+      }, 4000);
+    }
+
+    window.router = {
+      navigateTo: function(viewName) {
+        currentView = viewName;
+        if (viewName === 'welcome' && timerInterval) {
+          clearInterval(timerInterval);
+        }
+        renderApp();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+
+    window.openAiModal = function() {
+      document.getElementById('ai-modal').classList.remove('hidden');
+    };
+
+    window.closeAiModal = function() {
+      document.getElementById('ai-modal').classList.add('hidden');
+    };
+
+    window.handleAiSubmit = async function(e) {
+      e.preventDefault();
+      const promptInput = document.getElementById('ai-prompt-input');
+      const sendBtn = document.getElementById('ai-send-btn');
+      const chatMessages = document.getElementById('ai-chat-messages');
+      const userText = promptInput.value.trim();
+
+      if (!userText) return;
+
+      chatMessages.innerHTML += `
+        <div class="flex items-start gap-2 sm:gap-2.5 justify-end">
+          <div class="bg-indigo-600/90 border border-indigo-500 rounded-xl p-3 text-xs text-white leading-relaxed max-w-lg">
+            ${escapeHtml(userText)}
+          </div>
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center flex-shrink-0 text-[11px] sm:text-xs font-bold">Anda</div>
+        </div>`;
+
+      promptInput.value = '';
+      promptInput.disabled = true;
+      sendBtn.disabled = true;
+
+      const loadingId = 'ai-loading-' + Date.now();
+      chatMessages.innerHTML += `
+        <div id="${loadingId}" class="flex items-start gap-2.5">
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center flex-shrink-0 text-[11px] sm:text-xs font-bold">AI</div>
+          <div class="bg-slate-800/90 border border-slate-700 rounded-xl p-3 text-xs text-slate-300 italic flex items-center gap-2">
+            <span class="w-3.5 h-3.5 rounded-full border-2 border-purple-400 border-t-transparent animate-spin inline-block"></span>
+            <span>Mengkaji literatur akuntansi manajemen & menyusun formula formal...</span>
+          </div>
+        </div>`;
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      try {
+        const queryLower = userText.toLowerCase();
+        let pedagogicalResponse = "";
+
+        if (queryLower.includes("high-low") || queryLower.includes("tinggi-rendah") || queryLower.includes("campuran") || queryLower.includes("perilaku biaya")) {
+          pedagogicalResponse = "Metode **High-Low** memisahkan komponen biaya tetap dan biaya variabel dari biaya campuran (*mixed cost*) dengan persamaan linear formal:\n\n$$Y = a + bX$$\n\nDi mana:\n* $Y$ = Total estimasi biaya campuran\n* $a$ = Total biaya tetap (komponen kapasitas dasar)\n* $b$ = Tarif biaya variabel per satuan aktivitas, dirumuskan:\n\n$$b = \\frac{\\text{Biaya Titik Tertinggi} - \\text{Biaya Titik Terendah}}{\\text{Aktivitas Titik Tertinggi} - \\text{Aktivitas Titik Terendah}} = \\frac{\\Delta Y}{\\Delta X}$$\n\n* $X$ = Tingkat volume aktivitas operasional (misal jam mesin)\n\n*Sumber Pustaka:* Garrison, R. H., Noreen, E. W., & Brewer, P. C. (Managerial Accounting, 17th Edition, Bab 2: Cost Terms, Concepts, and Classifications).";
+        } else if (queryLower.includes("overhead") || queryLower.includes("poor") || queryLower.includes("job order")) {
+          pedagogicalResponse = "Dalam sistem **Job Order Costing**, Tarif Overhead Ditentukan Dimuka (*Predetermined Overhead Rate / POOR*) dihitung di awal tahun dengan rumus:\n\n$$POOR = \\frac{\\text{Estimasi Total Biaya Overhead Pabrikasi Tahunan}}{\\text{Estimasi Total Kuantitas Dasar Alokasi Tahunan}}$$\n\nPembebanan overhead ke nomor pesanan tertentu dilakukan selama proses berlangsung:\n\n$$\\text{Overhead Dibebankan} = POOR \\times \\text{Aktivitas Aktual Pesanan}$$\n\n*Sumber Pustaka:* Horngren, C. T., Datar, S. M., & Rajan, M. V. (Cost Accounting: A Managerial Emphasis, 16th Edition, Bab 4: Job Costing).";
+        } else if (queryLower.includes("cvp") || queryLower.includes("bep") || queryLower.includes("impas") || queryLower.includes("margin kontribusi")) {
+          pedagogicalResponse = "Dalam **Analisis Cost-Volume-Profit (CVP)**, Titik Impas (*Break-Even Point / BEP*) tercapai saat laba operasional sama dengan nol ($0$).\n\n1. Margin Kontribusi per unit:\n$$CM = P - V$$\n\n2. Titik Impas dalam Kuantitas Unit ($Q_{BEP}$):\n$$Q_{BEP} = \\frac{\\text{Total Biaya Tetap}}{P - V} = \\frac{FC}{CM}$$\n\n3. Titik Impas dalam Nilai Penjualan ($Rupiah_{BEP}$):\n$$BEP_{\\text{Rupiah}} = \\frac{\\text{Total Biaya Tetap}}{\\text{Rasio Margin Kontribusi}} = \\frac{FC}{\\frac{P - V}{P}}$$\n\n*Sumber Pustaka:* Blocher, E. J., Stout, D. E., Juras, P. E., & Smith, S. (Cost Management: A Strategic Emphasis, 8th Edition, Bab 9).";
+        } else if (queryLower.includes("varians") || queryLower.includes("variance") || queryLower.includes("standar")) {
+          pedagogicalResponse = "Analisis varians standar memisahkan deviasi harga dari deviasi efisiensi fisik operasional:\n\n1. **Direct Materials Price Variance (DMPV):**\n$$DMPV = AQ \\times (AP - SP)$$\n\n2. **Direct Materials Quantity Variance (DMQV):**\n$$DMQV = SP \\times (AQ_{\\text{pakai}} - SQ)$$\n\n*Keterangan:* $AQ$ = Kuantitas Aktual, $AP$ = Harga Aktual, $SP$ = Harga Standar, $SQ$ = Kuantitas Standar yang Diizinkan.\n\n*Sumber Pustaka:* Hansen, D. R., & Mowen, M. M. (Cornerstones of Managerial Accounting, 7th Edition, Bab 10: Standard Costing).";
+        } else {
+          pedagogicalResponse = `Berdasarkan literatur akademik akuntansi manajemen (Garrison et al., Horngren et al., Hansen & Mowen), evaluasi kasus **"${escapeHtml(userText)}"** memerlukan pemahaman mendalam tentang pemisahan biaya, penelusuran hubungan sebab-akibat (*cause-and-effect*), dan penetapan standar operasional formal.
+
+Gunakan notasi matematis formal saat menganalisis biaya:
+$$Y = a + bX$$
+Serta pastikan penentuan harga pokok membedakan biaya produk (*product costs*) dari biaya periode (*period costs*).
+
+*Sumber Pustaka:* Garrison, Noreen, & Brewer (Managerial Accounting, 17th Edition).`;
+        }
+
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) loadingEl.remove();
+
+        chatMessages.innerHTML += `
+          <div class="flex items-start gap-2.5">
+            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center flex-shrink-0 text-[11px] sm:text-xs font-bold">AI</div>
+            <div class="bg-slate-800/90 border border-slate-700 rounded-xl p-3 text-xs text-slate-200 leading-relaxed max-w-lg space-y-2">
+              ${formatAiResponseText(pedagogicalResponse)}
+            </div>
+          </div>`;
+
+        if (typeof renderMathInElement !== 'undefined') {
+          renderMathInElement(chatMessages, {
+            delimiters: [
+              {left: "$$", right: "$$", display: true},
+              {left: "$", right: "$", display: false}
+            ],
+            throwOnError: false
+          });
+        }
+      } catch (err) {
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) loadingEl.remove();
+        chatMessages.innerHTML += `
+          <div class="flex items-start gap-2.5">
+            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center flex-shrink-0 text-xs font-bold">AI</div>
+            <div class="bg-rose-950/40 border border-rose-800 rounded-xl p-3 text-xs text-rose-200">
+              Gagal memproses AI Tutor. Silakan ulangi kembali.
+            </div>
+          </div>`;
+      } finally {
+        promptInput.disabled = false;
+        sendBtn.disabled = false;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+    };
+
+    function escapeHtml(text) {
+      if (!text) return "";
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    function formatAiResponseText(rawText) {
+      return rawText
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:underline font-medium inline-flex items-center gap-0.5">$1 <i data-lucide="external-link" class="w-3 h-3"></i></a>')
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n\n/g, '<br/><br/>')
+        .replace(/\n/g, '<br/>');
+    }
+
+    window.handleLecturerLogin = function(e) {
+      e.preventDefault();
+      const inputPin = document.getElementById('lecturer-pin-input').value.trim();
+      if (inputPin === '140299' || inputPin === '140299@') {
+        document.getElementById('lecturer-pin-error').innerText = '';
+        currentView = 'lecturer_dashboard';
+        showToast('Login Dosen Pengampu Berhasil!', 'success');
+        renderApp();
+      } else {
+        document.getElementById('lecturer-pin-error').innerText = 'PIN Dosen tidak valid!';
+      }
+    };
+
+    window.toggleGlobalSession = async function() {
+      globalSession.isOpen = !globalSession.isOpen;
+      renderApp();
+
+      if (db) {
+        try {
+          const sessionDocRef = doc(db, 'mancount_state', 'session');
+          await setDoc(sessionDocRef, globalSession, { merge: true });
+        } catch (e) {
+          console.warn("Error updating session:", e);
+        }
+      }
+      showToast(globalSession.isOpen ? 'Sesi Permainan DIBUKA!' : 'Sesi Permainan DITUTUP.', globalSession.isOpen ? 'success' : 'info');
+    };
+
+    window.changeActiveMeeting = async function(num, title) {
+      globalSession.activeMeeting = num;
+      globalSession.gameTitle = 'Pertemuan ' + num + ': ' + title;
+      renderApp();
+
+      if (db) {
+        try {
+          const sessionDocRef = doc(db, 'mancount_state', 'session');
+          await setDoc(sessionDocRef, globalSession, { merge: true });
+        } catch (e) {
+          console.warn("Error updating meeting:", e);
+        }
+      }
+      showToast('Modul diubah ke Pertemuan ' + num, 'success');
+    };
+
+    window.openResetModal = function() {
+      document.getElementById('reset-confirm-modal').classList.remove('hidden');
+    };
+
+    window.closeResetModal = function() {
+      document.getElementById('reset-confirm-modal').classList.add('hidden');
+    };
+
+    window.openPinManagerModal = function(groupId) {
+      const g = groupsList.find(function(item) { return item.id === groupId; });
+      if (!g) return;
+
+      targetManageGroupId = groupId;
+      document.getElementById('manage-group-id').value = g.id;
+      document.getElementById('manage-group-name').innerText = g.name;
+      document.getElementById('current-group-pin-display').innerText = g.pin || 'Tidak Diatur';
+      document.getElementById('new-group-pin-input').value = g.pin || '';
+      document.getElementById('pin-manager-modal').classList.remove('hidden');
+    };
+
+    window.closePinManagerModal = function() {
+      document.getElementById('pin-manager-modal').classList.add('hidden');
+      targetManageGroupId = null;
+    };
+
+    window.handleUpdateGroupPin = async function(e) {
+      e.preventDefault();
+      const groupId = document.getElementById('manage-group-id').value;
+      const newPin = document.getElementById('new-group-pin-input').value.trim();
+
+      if (!groupId || !newPin) {
+        showToast('PIN baru tidak boleh kosong!', 'error');
+        return;
+      }
+
+      const groupIdx = groupsList.findIndex(function(item) { return item.id === groupId; });
+      if (groupIdx !== -1) {
+        groupsList[groupIdx].pin = newPin;
+      }
+
+      if (selectedGroup && selectedGroup.id === groupId) {
+        selectedGroup.pin = newPin;
+      }
+
+      if (db) {
+        try {
+          const groupDocRef = doc(db, 'mancount_groups', groupId);
+          await setDoc(groupDocRef, { pin: newPin }, { merge: true });
+        } catch (err) {
+          console.warn("Error updating PIN:", err);
+        }
+      }
+
+      window.closePinManagerModal();
+      showToast('PIN kelompok berhasil diperbarui di cloud!', 'success');
+      renderApp();
+    };
+
+    window.executeDeleteAllGroups = async function() {
+      const confirmBtn = document.getElementById('confirm-reset-btn');
+      if (confirmBtn) {
+        confirmBtn.disabled = true;
+        confirmBtn.innerHTML = '<span class="w-3.5 h-3.5 rounded-full border-2 border-white border-t-transparent animate-spin inline-block"></span> Mereset...';
+      }
+
+      if (db) {
+        try {
+          const groupsCollRef = collection(db, 'mancount_groups');
+          const snap = await getDocs(groupsCollRef);
+          const deletions = [];
+          snap.forEach(function(d) {
+            deletions.push(deleteDoc(d.ref));
+          });
+          await Promise.all(deletions);
+        } catch (err) {
+          console.warn("Error resetting groups:", err);
+        }
+      }
+
+      groupsList = [];
+      selectedGroup = null;
+      selectedAnswers = {};
+      caseSubmitted = {};
+      currentCaseIndex = 0;
+
+      window.closeResetModal();
+      showToast('Seluruh data kelompok berhasil direset!', 'success');
+      renderApp();
+    };
+
+    window.openDiscussionModal = function(num) {
+      meetingDiscussionNum = num;
+      document.getElementById('discussion-modal').classList.remove('hidden');
+      renderDiscussionModalContent();
+    };
+
+    window.closeDiscussionModal = function() {
+      document.getElementById('discussion-modal').classList.add('hidden');
+    };
+
+    window.setGroupModalMode = function(mode) {
+      const loginDiv = document.getElementById('group-login-form');
+      const regDiv = document.getElementById('group-register-form');
+      const loginTab = document.getElementById('tab-login');
+      const regTab = document.getElementById('tab-register');
+
+      if (mode === 'login') {
+        loginDiv.classList.remove('hidden');
+        regDiv.classList.add('hidden');
+        loginTab.className = 'flex-1 py-2 text-xs font-bold rounded-lg transition bg-emerald-500 text-slate-950 cursor-pointer min-h-[38px]';
+        regTab.className = 'flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 cursor-pointer min-h-[38px]';
+      } else {
+        loginDiv.classList.add('hidden');
+        regDiv.classList.remove('hidden');
+        regTab.className = 'flex-1 py-2 text-xs font-bold rounded-lg transition bg-emerald-500 text-slate-950 cursor-pointer min-h-[38px]';
+        loginTab.className = 'flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 cursor-pointer min-h-[38px]';
+      }
+    };
+
+    window.handleRegisterGroup = async function(e) {
+      e.preventDefault();
+      if (!globalSession.isOpen) {
+        document.getElementById('group-error').innerText = 'Sesi belum dibuka oleh Dosen Pengampu.';
+        return;
+      }
+      if (groupsList.length >= 30) {
+        document.getElementById('group-error').innerText = 'Kapasitas maksimum 30 kelompok telah tercapai.';
+        return;
+      }
+      const name = document.getElementById('reg-name').value.trim();
+      const pin = document.getElementById('reg-pin').value.trim();
+
+      if (!name || !pin) {
+        document.getElementById('group-error').innerText = 'Nama Kelompok dan PIN wajib diisi.';
+        return;
+      }
+
+      if (groupsList.some(function(g) { return g.name.toLowerCase() === name.toLowerCase(); })) {
+        document.getElementById('group-error').innerText = 'Nama kelompok ini sudah terdaftar.';
+        return;
+      }
+
+      const groupId = 'group_' + Date.now();
+      const newGroup = {
+        name: name,
+        pin: pin,
+        score: 0,
+        completedCases: {},
+        members: [{ name: 'Ketua Kelompok', nim: '-' }],
+        history: ['Kelompok terdaftar dalam sesi.'],
+        lastActive: new Date().toISOString()
+      };
+
+      if (db) {
+        try {
+          const groupDocRef = doc(db, 'mancount_groups', groupId);
+          await setDoc(groupDocRef, newGroup);
+        } catch (err) {
+          console.warn("Error registering group:", err);
+        }
+      }
+
+      const fullGroup = Object.assign({ id: groupId }, newGroup);
+      groupsList.push(fullGroup);
+      selectedGroup = fullGroup;
+      currentCaseIndex = 0;
+      selectedAnswers = {};
+      caseSubmitted = {};
+
+      currentView = 'game_board';
+      showToast('Kelompok "' + name + '" berhasil didaftarkan!', 'success');
+      renderApp();
+    };
+
+    window.handleLoginGroup = function(e) {
+      e.preventDefault();
+      if (!globalSession.isOpen) {
+        document.getElementById('group-error').innerText = 'Sesi belum dibuka oleh Dosen Pengampu.';
+        return;
+      }
+      const selectId = document.getElementById('login-group-select').value;
+      const pin = document.getElementById('login-pin').value.trim();
+
+      const group = groupsList.find(function(g) { return g.id === selectId; });
+      if (!group) {
+        document.getElementById('group-error').innerText = 'Silakan pilih kelompok terlebih dahulu.';
+        return;
+      }
+
+      if (group.pin === pin) {
+        selectedGroup = group;
+        selectedAnswers = {};
+        caseSubmitted = {};
+
+        const cases = MEETING_CASES[globalSession.activeMeeting] || [];
+        const completed = group.completedCases || {};
+        const curMeeting = completed[globalSession.activeMeeting] || { answers: {} };
+
+        let resumeIdx = 0;
+        for (let i = 0; i < cases.length; i++) {
+          const cId = cases[i].id;
+          if (curMeeting.answers && curMeeting.answers[cId] !== undefined) {
+            selectedAnswers[cId] = curMeeting.answers[cId].chosen;
+            caseSubmitted[cId] = true;
+            resumeIdx = i + 1;
+          } else {
+            resumeIdx = i;
+            break;
+          }
+        }
+
+        if (resumeIdx >= cases.length) {
+          currentView = 'meeting_complete';
+        } else {
+          currentCaseIndex = resumeIdx;
+          currentView = 'game_board';
+        }
+
+        showToast('Selamat datang kembali, ' + group.name + '! Progres tersinkronisasi.', 'success');
+        renderApp();
+      } else {
+        document.getElementById('group-error').innerText = 'PIN Kelompok Salah! Hubungi Dosen jika lupa PIN.';
+      }
+    };
+
+    function startCaseTimer(caseId, limit) {
+      if (timerInterval) clearInterval(timerInterval);
+      timeLeft = limit;
+
+      timerInterval = setInterval(function() {
+        timeLeft--;
+        const timerEl = document.getElementById('case-timer-display');
+        if (timerEl) {
+          const m = Math.floor(timeLeft / 60);
+          const s = timeLeft % 60;
+          timerEl.innerText = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        }
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          window.submitAnswer(caseId, -1);
+        }
+      }, 1000);
+    }
+
+    window.selectAnswer = function(caseId, optIdx) {
+      if (caseSubmitted[caseId]) return;
+      selectedAnswers[caseId] = optIdx;
+      renderApp();
+    };
+
+    window.submitAnswer = async function(caseId, chosenOpt) {
+      if (timerInterval) clearInterval(timerInterval);
+      const cases = MEETING_CASES[globalSession.activeMeeting] || [];
+      const c = cases.find(function(item) { return item.id === caseId; });
+      if (!c) return;
+
+      const isCorrect = chosenOpt === c.correct;
+      const earned = isCorrect ? 100 : 0;
+
+      caseSubmitted[caseId] = true;
+
+      const completed = selectedGroup.completedCases || {};
+      const currentMeetingRecord = completed[globalSession.activeMeeting] || { score: 0, answers: {} };
+      
+      const alreadyAnswered = currentMeetingRecord.answers[caseId] !== undefined;
+      if (!alreadyAnswered) {
+        currentMeetingRecord.score += earned;
+        currentMeetingRecord.answers[caseId] = { chosen: chosenOpt, correct: isCorrect, points: earned };
+      }
+
+      completed[globalSession.activeMeeting] = currentMeetingRecord;
+
+      let totalScore = 0;
+      Object.keys(completed).forEach(function(mNum) {
+        totalScore += (completed[mNum].score || 0);
+      });
+
+      const logMsg = '[Pertemuan ' + globalSession.activeMeeting + '] Kasus #' + caseId + ': ' + (isCorrect ? 'Benar (+100)' : 'Salah (0)');
+      const logs = [logMsg].concat(selectedGroup.history || []).slice(0, 15);
+
+      selectedGroup.score = totalScore;
+      selectedGroup.completedCases = completed;
+      selectedGroup.history = logs;
+      selectedGroup.lastActive = new Date().toISOString();
+
+      groupsList = groupsList.map(function(g) { return g.id === selectedGroup.id ? selectedGroup : g; });
+
+      if (db) {
+        try {
+          const groupDocRef = doc(db, 'mancount_groups', selectedGroup.id);
+          await setDoc(groupDocRef, {
+            score: totalScore,
+            completedCases: completed,
+            history: logs,
+            lastActive: selectedGroup.lastActive
+          }, { merge: true });
+        } catch (e) {
+          console.warn("Firestore sync error:", e);
+        }
+      }
+
+      renderApp();
+      showToast(isCorrect ? 'Jawaban BENAR! +100 Poin' : 'Jawaban SALAH! 0 Poin', isCorrect ? 'success' : 'error');
+
+      setTimeout(function() {
+        if (currentCaseIndex < cases.length - 1) {
+          currentCaseIndex++;
+          renderApp();
+        } else {
+          currentView = 'meeting_complete';
+          renderApp();
+        }
+      }, 700);
+    };
+
+    window.nextCase = function() {
+      const cases = MEETING_CASES[globalSession.activeMeeting] || [];
+      if (currentCaseIndex < cases.length - 1) {
+        currentCaseIndex++;
+        renderApp();
+      } else {
+        currentView = 'meeting_complete';
+        renderApp();
+      }
+    };
+
+    window.openCertificateModalForGroup = function(groupId) {
+      const g = groupsList.find(function(item) { return item.id === groupId; });
+      if (!g) return;
+
+      document.getElementById('cert-group-name').innerText = g.name;
+      document.getElementById('cert-total-score').innerText = (g.score || 0) + ' Poin';
+      
+      const membersListEl = document.getElementById('cert-members-list');
+      membersListEl.innerHTML = '';
+      const members = g.members || [{ name: 'Ketua Kelompok', nim: '-' }];
+      members.forEach(function(m, i) {
+        const li = document.createElement('li');
+        li.innerText = (i + 1) + '. ' + m.name + ' (NIM: ' + m.nim + ')';
+        membersListEl.appendChild(li);
+      });
+
+      document.getElementById('certificate-modal').classList.remove('hidden');
+    };
+
+    window.closeCertificateModal = function() {
+      document.getElementById('certificate-modal').classList.add('hidden');
+    };
+
+    window.saveMembersAndProceed = async function(e) {
+      e.preventDefault();
+      const m1Name = document.getElementById('m1-name').value;
+      const m1Nim = document.getElementById('m1-nim').value;
+      const m2Name = document.getElementById('m2-name').value;
+      const m2Nim = document.getElementById('m2-nim').value;
+
+      const members = [{ name: m1Name, nim: m1Nim }];
+      if (m2Name) {
+        members.push({ name: m2Name, nim: m2Nim });
+      }
+
+      selectedGroup.members = members;
+      groupsList = groupsList.map(function(g) { return g.id === selectedGroup.id ? selectedGroup : g; });
+
+      if (db) {
+        try {
+          const groupDocRef = doc(db, 'mancount_groups', selectedGroup.id);
+          await setDoc(groupDocRef, { members: members }, { merge: true });
+        } catch (e) {
+          console.warn("Firestore save members error:", e);
+        }
+      }
+
+      currentView = 'welcome';
+      renderApp();
+      showToast('Anggota kelompok tersimpan di cloud. Sertifikat siap dicetak!', 'success');
+    };
+
+    function renderApp() {
+      const main = document.getElementById('app-main');
+      const sessionBadge = document.getElementById('session-badge');
+      const sessionDot = document.getElementById('session-dot');
+      const sessionBadgeText = document.getElementById('session-badge-text');
+      const navExitBtn = document.getElementById('nav-exit-btn');
+
+      if (globalSession.isOpen) {
+        sessionBadge.className = 'px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-semibold flex items-center gap-1.5 border bg-emerald-500/10 text-emerald-400 border-emerald-500/30 whitespace-nowrap';
+        sessionDot.className = 'w-2 h-2 rounded-full animate-ping bg-emerald-400';
+        sessionBadgeText.innerText = 'Sesi Dibuka';
+      } else {
+        sessionBadge.className = 'px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-semibold flex items-center gap-1.5 border bg-rose-500/10 text-rose-400 border-rose-500/30 whitespace-nowrap';
+        sessionDot.className = 'w-2 h-2 rounded-full animate-ping bg-rose-400';
+        sessionBadgeText.innerText = 'Sesi Ditutup';
+      }
+
+      if (currentView !== 'welcome') {
+        navExitBtn.classList.remove('hidden');
+        navExitBtn.classList.add('inline-flex');
+      } else {
+        navExitBtn.classList.remove('inline-flex');
+        navExitBtn.classList.add('hidden');
+      }
+
+      if (currentView === 'welcome') {
+        renderWelcomeView(main);
+      } else if (currentView === 'lecturer_dashboard') {
+        renderLecturerDashboard(main);
+      } else if (currentView === 'group_login') {
+        renderGroupLogin(main);
+      } else if (currentView === 'game_board') {
+        renderGameBoard(main);
+      } else if (currentView === 'meeting_complete') {
+        renderMeetingComplete(main);
+      } else if (currentView === 'members_input') {
+        renderMembersInput(main);
+      }
+
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+
+      if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    function renderWelcomeView(container) {
+      container.innerHTML = `
+        <div class="py-8 sm:py-12 max-w-5xl mx-auto space-y-8 sm:space-y-10">
+          <div class="text-center space-y-3 sm:space-y-4 px-2">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs sm:text-sm font-semibold animate-glow">
+              <i data-lucide="sparkles" class="w-4 h-4"></i> Simulasi Kasus Multi-Device Real-Time (Maks. 30 Kelompok)
+            </div>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+              Transformasi Mahasiswa Menjadi <br />
+              <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 bg-clip-text text-transparent">Akuntan Manajemen Junior</span>
+            </h2>
+            <p class="text-slate-400 text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+              Pilih peran Anda untuk masuk ke dalam sistem real-time ManCount Board. Setiap kelompok menyelesaikan 10 soal pilihan ganda analitis per pertemuan dengan dukungan AI Tutor dan sinkronisasi lintas perangkat.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-5 sm:gap-6">
+            <div class="bg-slate-900/80 backdrop-blur-md border border-slate-700/80 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-xl hover:border-emerald-500/50 transition group">
+              <div class="space-y-3 sm:space-y-4">
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition animate-float">
+                  <i data-lucide="users" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-bold text-white">Portal Mahasiswa / Kelompok</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Masuk ke kelompok Anda (maksimal 30 kelompok) menggunakan PIN rahasia untuk menyelesaikan 10 kasus kritis per pertemuan secara terstruktur dan serentak di kelas.
+                </p>
+              </div>
+              <button 
+                onclick="router.navigateTo('group_login')"
+                class="mt-6 sm:mt-8 w-full py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition text-xs sm:text-sm min-h-[44px] ${
+                  globalSession.isOpen 
+                    ? 'animatic-btn text-slate-950 shadow-lg cursor-pointer' 
+                    : 'bg-slate-800 text-slate-400 cursor-not-allowed border border-slate-700'
+                }"
+                ${!globalSession.isOpen ? 'disabled' : ''}
+              >
+                <i data-lucide="play" class="w-4 h-4 fill-current"></i> 
+                ${globalSession.isOpen ? 'Masuk Portal Kelompok' : 'Sesi Belum Dibuka Dosen'}
+              </button>
+            </div>
+
+            <div class="bg-slate-900/80 backdrop-blur-md border border-slate-700/80 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-xl hover:border-indigo-500/50 transition group">
+              <div class="space-y-3 sm:space-y-4">
+                <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-105 transition animate-float" style="animation-delay: 1s;">
+                  <i data-lucide="shield-check" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-bold text-white">Portal Dosen Pengampu</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Buka/tutup sesi praktikum, atur modul aktif (Pertemuan 1-7), pantau Group Leaderboard 30 kelompok secara real-time, kelola PIN kelompok, serta akses pembahasan akademik rinci.
+                </p>
+              </div>
+
+              <form onsubmit="handleLecturerLogin(event)" class="mt-6 space-y-3">
+                <div>
+                  <input 
+                    type="password" 
+                    id="lecturer-pin-input"
+                    placeholder="Masukkan PIN Dosen" 
+                    autocomplete="current-password"
+                    required
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500 transition"
+                  />
+                  <p id="lecturer-pin-error" class="text-xs text-rose-400 mt-1 min-h-[16px]"></p>
+                </div>
+                <button 
+                  type="submit"
+                  class="w-full py-3 animatic-btn-indigo text-white rounded-xl font-bold flex items-center justify-center gap-2 transition shadow-lg cursor-pointer text-xs sm:text-sm min-h-[44px]"
+                >
+                  <i data-lucide="lock" class="w-4 h-4"></i> Masuk Dashboard Dosen
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+              <div class="p-2.5 sm:p-3 bg-teal-500/10 text-teal-400 rounded-xl flex-shrink-0">
+                <i data-lucide="book-open" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+              </div>
+              <div>
+                <span class="text-[10px] sm:text-xs font-semibold text-teal-400 uppercase tracking-wider">Modul Kasus Aktif Saat Ini</span>
+                <h4 class="text-sm sm:text-base font-bold text-white">${globalSession.gameTitle}</h4>
+              </div>
+            </div>
+            <div class="text-left sm:text-right w-full sm:w-auto border-t sm:border-t-0 border-slate-800 pt-2 sm:pt-0">
+              <span class="text-[10px] sm:text-xs text-slate-400 block">Kapasitas Sesi Kelas</span>
+              <p class="text-base sm:text-lg font-bold text-emerald-400">${groupsList.length} / 30 Kelompok Terdaftar</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderLecturerDashboard(container) {
+      const sortedGroups = [].concat(groupsList).sort(function(a, b) { return (b.score || 0) - (a.score || 0); });
+
+      container.innerHTML = `
+        <div class="space-y-6 sm:space-y-8 max-w-6xl mx-auto">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/80 border border-slate-700/80 p-5 sm:p-6 rounded-2xl shadow-xl">
+            <div>
+              <span class="text-[10px] sm:text-xs text-indigo-400 font-bold uppercase tracking-wider">Panel Kontrol Utama Dosen Pengampu</span>
+              <h2 class="text-2xl sm:text-3xl font-black text-white mt-0.5">Manajemen Sesi & Leaderboard Kelas</h2>
+              <p class="text-slate-400 text-xs sm:text-sm mt-1">Sinkronisasi status sesi, modul pertemuan, dan pantauan skor live 30 kelompok.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2.5">
+              <button 
+                onclick="toggleGlobalSession()"
+                class="flex-1 sm:flex-initial px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition cursor-pointer min-h-[42px] ${
+                  globalSession.isOpen 
+                    ? 'bg-rose-600 hover:bg-rose-500 text-white shadow-lg shadow-rose-600/20' 
+                    : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20'
+                }"
+              >
+                <i data-lucide="${globalSession.isOpen ? 'lock' : 'unlock'}" class="w-4 h-4"></i>
+                <span>${globalSession.isOpen ? 'Tutup Sesi Kelas' : 'Buka Sesi Kelas'}</span>
+              </button>
+              <button 
+                onclick="openResetModal()"
+                class="flex-1 sm:flex-initial px-3.5 sm:px-4 py-2.5 sm:py-3 bg-slate-950 hover:bg-rose-950/50 text-rose-400 border border-rose-800/60 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer min-h-[42px]"
+                title="Hapus seluruh riwayat kelompok dan skor untuk sesi baru"
+              >
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                <span>Reset Semua Data</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="space-y-3 sm:space-y-4">
+            <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+              <i data-lucide="layers" class="w-5 h-5 text-emerald-400"></i> Pilih Modul Kasus Aktif (Pertemuan 1 s.d. 7)
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+              ${meetingsData.map(function(m) {
+                return `
+                  <div 
+                    onclick="changeActiveMeeting(${m.num}, '${m.title}')"
+                    class="p-4 sm:p-5 rounded-2xl border cursor-pointer transition flex flex-col justify-between ${
+                      globalSession.activeMeeting === m.num 
+                        ? 'bg-emerald-950/40 border-emerald-500 shadow-lg shadow-emerald-500/10' 
+                        : 'bg-slate-900/60 border-slate-700/80 hover:border-slate-600'
+                    }"
+                  >
+                    <div>
+                      <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-lg ${
+                          globalSession.activeMeeting === m.num ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-300'
+                        }">
+                          Pertemuan ${m.num}
+                        </span>
+                        ${globalSession.activeMeeting === m.num ? '<i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>' : ''}
+                      </div>
+                      <h4 class="font-bold text-white text-xs sm:text-sm mb-1">${m.title}</h4>
+                      <p class="text-[11px] sm:text-xs text-slate-400 leading-relaxed">${m.desc}</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs font-semibold text-emerald-400">
+                      <span>${globalSession.activeMeeting === m.num ? 'Sedang Aktif' : 'Pilih Modul'}</span>
+                      <button 
+                        onclick="event.stopPropagation(); openDiscussionModal(${m.num});"
+                        class="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg flex items-center gap-1 shadow cursor-pointer text-[11px]"
+                        title="Buka Kunci Jawaban & Pembahasan Akademik"
+                      >
+                        <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Pembahasan
+                      </button>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                <i data-lucide="trophy" class="w-5 h-5 text-amber-400"></i> Group Leaderboard (${groupsList.length} / 30 Kelompok)
+              </h3>
+              <span class="text-[11px] sm:text-xs text-slate-400">Pembaruan Skor Real-Time Multi-Device</span>
+            </div>
+
+            <div class="bg-slate-900/80 border border-slate-700/80 rounded-2xl overflow-hidden shadow-xl">
+              ${sortedGroups.length === 0 ? `
+                <div class="p-8 sm:p-12 text-center space-y-3">
+                  <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-full mx-auto flex items-center justify-center">
+                    <i data-lucide="clock" class="w-6 h-6 animate-pulse"></i>
+                  </div>
+                  <h4 class="text-sm sm:text-base font-bold text-white">Leaderboard Siaga (Belum Ada Kelompok Terdaftar)</h4>
+                  <p class="text-xs text-slate-400 max-w-md mx-auto">
+                    Buka sesi kelas di atas agar mahasiswa dapat mendaftarkan kelompoknya dari gawai masing-masing. Papan skor akan muncul secara otomatis.
+                  </p>
+                </div>
+              ` : `
+                <div class="overflow-x-auto smooth-scroll">
+                  <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                    <thead>
+                      <tr class="bg-slate-950/70 border-b border-slate-800 text-slate-400 text-[10px] sm:text-xs uppercase font-semibold">
+                        <th class="p-3 sm:p-4">Peringkat</th>
+                        <th class="p-3 sm:p-4">Nama Kelompok & PIN</th>
+                        <th class="p-3 sm:p-4">Total Skor</th>
+                        <th class="p-3 sm:p-4">Aktivitas Terakhir</th>
+                        <th class="p-3 sm:p-4 text-center">Tindakan Dosen</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/80">
+                      ${sortedGroups.map(function(g, idx) {
+                        return `
+                          <tr class="hover:bg-slate-800/40 transition">
+                            <td class="p-3 sm:p-4 font-bold text-amber-400">
+                              ${idx === 0 ? '🥇 #1' : idx === 1 ? '🥈 #2' : idx === 2 ? '🥉 #3' : '#' + (idx + 1)}
+                            </td>
+                            <td class="p-3 sm:p-4">
+                              <div class="font-bold text-white flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"></div>
+                                <span>${escapeHtml(g.name)}</span>
+                              </div>
+                              <div class="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1.5 font-mono">
+                                <span>PIN: <strong class="text-amber-400">${escapeHtml(g.pin || '-')}</strong></span>
+                              </div>
+                            </td>
+                            <td class="p-3 sm:p-4 font-black text-emerald-400 text-sm sm:text-base whitespace-nowrap">
+                              ${g.score || 0} Poin
+                            </td>
+                            <td class="p-3 sm:p-4 text-[11px] sm:text-xs text-slate-400 max-w-xs truncate">
+                              ${g.history && g.history[0] ? escapeHtml(g.history[0]) : 'Baru bergabung'}
+                            </td>
+                            <td class="p-3 sm:p-4 text-center whitespace-nowrap">
+                              <button 
+                                onclick="openPinManagerModal('${g.id}')"
+                                class="px-3 py-1.5 bg-indigo-600/80 hover:bg-indigo-600 text-white rounded-lg text-xs font-semibold inline-flex items-center gap-1 transition shadow cursor-pointer"
+                                title="Buka dan ubah PIN jika kelompok lupa"
+                              >
+                                <i data-lucide="key" class="w-3.5 h-3.5"></i>
+                                <span>Kelola PIN</span>
+                              </button>
+                            </td>
+                          </tr>
+                        `;
+                      }).join('')}
+                    </tbody>
+                  </table>
+                </div>
+              `}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDiscussionModalContent() {
+      const modalBody = document.getElementById('discussion-modal-body');
+      const cases = MEETING_CASES[meetingDiscussionNum] || [];
+      const mInfo = meetingsData.find(function(item) { return item.num === meetingDiscussionNum; });
+
+      document.getElementById('discussion-modal-title').innerText = 'Pertemuan ' + meetingDiscussionNum + ': ' + (mInfo ? mInfo.title : '');
+
+      modalBody.innerHTML = cases.map(function(c) {
+        return `
+          <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-4 sm:p-5 space-y-3.5">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+              <span class="text-[11px] sm:text-xs font-bold px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Kasus #${c.id}</span>
+              <span class="text-xs sm:text-sm text-emerald-400 font-bold">Kunci Jawaban: Opsi ${String.fromCharCode(65 + c.correct)}</span>
+            </div>
+            
+            <h4 class="font-bold text-white text-xs sm:text-sm leading-relaxed">${escapeHtml(c.question)}</h4>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              ${c.options.map(function(opt, oIdx) {
+                const isCorrect = oIdx === c.correct;
+                return `
+                  <div class="p-2.5 rounded-lg text-xs border ${
+                    isCorrect 
+                      ? 'bg-emerald-950/50 border-emerald-500 text-emerald-200 font-semibold' 
+                      : 'bg-slate-950/60 border-slate-800 text-slate-400'
+                  }">
+                    ${escapeHtml(opt)}
+                  </div>
+                `;
+              }).join('')}
+            </div>
+
+            <div class="p-3.5 bg-slate-950/80 rounded-xl border border-slate-800 text-xs text-slate-200 space-y-2.5">
+              <div class="flex items-center gap-1.5 text-indigo-400 font-bold">
+                <i data-lucide="book-open-check" class="w-4 h-4"></i>
+                <span>Analisis & Pembahasan Teori (Poin-Poin):</span>
+              </div>
+              <ul class="list-disc list-inside space-y-1.5 text-slate-300 leading-relaxed pl-1">
+                ${(c.discussionPoints || [c.discussion || "Analisis akademik standar."]).map(function(pt) {
+                  return `<li>${pt}</li>`;
+                }).join('')}
+              </ul>
+              ${c.reference ? `
+                <div class="mt-2 pt-2 border-t border-slate-800/80 text-[11px] text-slate-400 flex items-start gap-1.5">
+                  <i data-lucide="bookmark" class="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5"></i>
+                  <span><strong>Rujukan Literatur:</strong> ${escapeHtml(c.reference)}</span>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderGroupLogin(container) {
+      container.innerHTML = `
+        <div class="max-w-md mx-auto py-8 sm:py-12 px-2">
+          <div class="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-5">
+            <div class="text-center space-y-2">
+              <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-xl mx-auto flex items-center justify-center">
+                <i data-lucide="users" class="w-6 h-6"></i>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-black text-white">Portal Masuk Kelompok</h3>
+              <p class="text-xs text-slate-400">Masuk menggunakan PIN atau daftarkan kelompok baru (Maks. 30 Kelompok)</p>
+            </div>
+
+            <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800">
+              <button 
+                id="tab-login"
+                onclick="setGroupModalMode('login')"
+                class="flex-1 py-2 text-xs font-bold rounded-lg transition bg-emerald-500 text-slate-950 cursor-pointer min-h-[38px]"
+              >
+                Masuk Kelompok
+              </button>
+              <button 
+                id="tab-register"
+                onclick="setGroupModalMode('register')"
+                class="flex-1 py-2 text-xs font-bold rounded-lg transition text-slate-400 cursor-pointer min-h-[38px]"
+              >
+                Daftar Baru
+              </button>
+            </div>
+
+            <p id="group-error" class="text-xs text-rose-400 text-center min-h-[16px]"></p>
+
+            <div id="group-login-form" class="space-y-4">
+              <form onsubmit="handleLoginGroup(event)" class="space-y-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1.5">Pilih Kelompok Anda</label>
+                  <select 
+                    id="login-group-select"
+                    required
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-emerald-500 transition"
+                  >
+                    <option value="">-- Pilih Kelompok (${groupsList.length} terdaftar) --</option>
+                    ${groupsList.map(function(g) { 
+                      return '<option value="' + g.id + '">' + escapeHtml(g.name) + '</option>'; 
+                    }).join('')}
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1.5">PIN Rahasia Kelompok</label>
+                  <input 
+                    type="password" 
+                    id="login-pin"
+                    placeholder="Masukkan PIN rahasia kelompok" 
+                    required
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-emerald-500 transition"
+                  />
+                  <p class="text-[11px] text-slate-400 mt-1.5 flex items-center gap-1">
+                    <i data-lucide="info" class="w-3.5 h-3.5 text-indigo-400"></i>
+                    <span>Lupa PIN? Lapor kepada Dosen Pengampu untuk melihat/mengatur ulang PIN.</span>
+                  </p>
+                </div>
+
+                <button 
+                  type="submit"
+                  class="w-full py-3.5 animatic-btn text-slate-950 rounded-xl font-bold flex items-center justify-center gap-2 transition shadow-lg cursor-pointer text-xs sm:text-sm min-h-[44px]"
+                >
+                  <i data-lucide="play" class="w-4 h-4 fill-current"></i> Mulai Tantangan Kasus
+                </button>
+              </form>
+            </div>
+
+            <div id="group-register-form" class="space-y-4 hidden">
+              <form onsubmit="handleRegisterGroup(event)" class="space-y-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1.5">Nama Kelompok</label>
+                  <input 
+                    type="text" 
+                    id="reg-name"
+                    placeholder="Contoh: Kelompok 1 - PT Mahakarya" 
+                    required
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-emerald-500 transition"
+                  />
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1.5">Buat PIN Kelompok</label>
+                  <input 
+                    type="password" 
+                    id="reg-pin"
+                    placeholder="Tentukan PIN unik kelompok" 
+                    required
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-emerald-500 transition"
+                  />
+                </div>
+
+                <button 
+                  type="submit"
+                  class="w-full py-3.5 animatic-btn text-slate-950 rounded-xl font-bold flex items-center justify-center gap-2 transition shadow-lg cursor-pointer text-xs sm:text-sm min-h-[44px]"
+                >
+                  <i data-lucide="award" class="w-4 h-4"></i> Daftarkan Kelompok Baru
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderGameBoard(container) {
+      const cases = MEETING_CASES[globalSession.activeMeeting] || [];
+      const activeCase = cases[currentCaseIndex];
+      if (!activeCase) return;
+
+      startCaseTimer(activeCase.id, activeCase.timeLimit || 180);
+
+      const isSubmitted = caseSubmitted[activeCase.id];
+      const chosenOpt = selectedAnswers[activeCase.id];
+
+      container.innerHTML = `
+        <div class="space-y-5 sm:space-y-6 max-w-4xl mx-auto">
+          <div class="bg-slate-900/80 border border-slate-700/80 p-4 sm:p-6 rounded-2xl shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+              <div class="p-3 bg-emerald-500/20 text-emerald-400 rounded-2xl flex-shrink-0">
+                <i data-lucide="file-text" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    Modul Pertemuan ${globalSession.activeMeeting}
+                  </span>
+                  <span class="text-xs text-slate-400">| Kelompok: <strong class="text-white">${escapeHtml(selectedGroup.name)}</strong></span>
+                </div>
+                <h2 class="text-base sm:text-xl font-black text-white mt-1">${globalSession.gameTitle}</h2>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between sm:justify-end gap-4 bg-slate-950/80 p-2.5 sm:p-3 rounded-xl border border-slate-800">
+              <div class="text-left sm:text-right px-2">
+                <span class="text-[10px] sm:text-xs text-slate-400 block">Skor Akumulasi Kelompok</span>
+                <span class="text-base sm:text-xl font-black text-emerald-400">${selectedGroup.score || 0} Poin</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-5 sm:p-8 shadow-xl space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+              <div class="flex items-center gap-2.5">
+                <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  Soal #${activeCase.id} dari 10
+                </span>
+                <div class="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border bg-slate-950 text-amber-300 border-amber-500/30">
+                  <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                  <span id="case-timer-display">03:00</span>
+                </div>
+              </div>
+              
+              <div class="flex items-center gap-1 flex-wrap justify-start sm:justify-end">
+                ${cases.map(function(c, idx) {
+                  const compCases = selectedGroup.completedCases || {};
+                  const curMeetingComp = compCases[globalSession.activeMeeting] || { answers: {} };
+                  const isAnswered = curMeetingComp.answers[c.id] !== undefined;
+                  return `
+                    <div class="w-6 h-6 rounded text-[10px] font-bold flex items-center justify-center ${
+                      currentCaseIndex === idx 
+                        ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20' 
+                        : isAnswered 
+                        ? 'bg-slate-950 text-emerald-400 border border-emerald-500/30' 
+                        : 'bg-slate-950 text-slate-600 border border-slate-800'
+                    }">${c.id}</div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <h3 class="text-sm sm:text-base font-bold text-white leading-relaxed">${escapeHtml(activeCase.question)}</h3>
+
+              <div class="space-y-2.5 pt-1">
+                ${activeCase.options.map(function(opt, optIdx) {
+                  const isChosen = chosenOpt === optIdx;
+                  let styleClass = 'bg-slate-950/70 border-slate-800 hover:border-slate-700 text-slate-300';
+                  
+                  if (isSubmitted) {
+                    if (optIdx === activeCase.correct) {
+                      styleClass = 'bg-emerald-950/50 border-emerald-500 text-emerald-200';
+                    } else if (isChosen) {
+                      styleClass = 'bg-rose-950/50 border-rose-500 text-rose-200';
+                    } else {
+                      styleClass = 'bg-slate-950/40 border-slate-900 text-slate-500 opacity-60';
+                    }
+                  } else if (isChosen) {
+                    styleClass = 'bg-emerald-500/10 border-emerald-500 text-white shadow-lg';
+                  }
+
+                  return `
+                    <div 
+                      onclick="selectAnswer(${activeCase.id}, ${optIdx})"
+                      class="p-3.5 sm:p-4 rounded-xl border cursor-pointer transition flex items-start gap-3 min-h-[48px] ${styleClass}"
+                    >
+                      <div class="w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0 mt-0.5 text-xs ${
+                        isChosen ? 'border-emerald-400 bg-emerald-400 text-slate-950 font-bold' : 'border-slate-600'
+                      }">
+                        ${String.fromCharCode(65 + optIdx)}
+                      </div>
+                      <span class="text-xs sm:text-sm leading-relaxed">${escapeHtml(opt)}</span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            ${!isSubmitted ? `
+              <div class="flex justify-end pt-3">
+                <button 
+                  onclick="submitAnswer(${activeCase.id}, ${chosenOpt !== undefined ? chosenOpt : -1})"
+                  class="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition cursor-pointer min-h-[44px] ${
+                    chosenOpt !== undefined 
+                      ? 'animatic-btn text-slate-950 shadow-lg' 
+                      : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
+                  }"
+                  ${chosenOpt !== undefined ? '' : 'disabled'}
+                >
+                  <span>Kunci & Kirim Jawaban</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+            ` : `
+              <div class="space-y-4 pt-2">
+                <div class="p-3.5 sm:p-4 rounded-xl border text-xs leading-relaxed ${
+                  selectedAnswers[activeCase.id] === activeCase.correct 
+                    ? 'bg-emerald-950/50 border-emerald-500/50 text-emerald-200' 
+                    : 'bg-rose-950/50 border-rose-500/50 text-rose-200'
+                }">
+                  <strong class="block font-bold mb-1">
+                    ${selectedAnswers[activeCase.id] === activeCase.correct ? '✅ Jawaban Benar! (+100 Poin)' : '❌ Jawaban Salah! (0 Poin)'}
+                  </strong>
+                  <span>Kunci yang benar: <strong>Opsi ${String.fromCharCode(65 + activeCase.correct)}. ${escapeHtml(activeCase.options[activeCase.correct])}</strong></span>
+                </div>
+
+                ${currentCaseIndex < cases.length - 1 ? `
+                  <div class="flex justify-end">
+                    <button 
+                      onclick="nextCase()"
+                      class="w-full sm:w-auto px-5 py-2.5 animatic-btn text-slate-950 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition shadow-lg cursor-pointer min-h-[42px]"
+                    >
+                      <span>Lanjut ke Soal Berikutnya</span>
+                      <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                  </div>
+                ` : ''}
+              </div>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderMeetingComplete(container) {
+      const compCases = selectedGroup.completedCases || {};
+      const curMeetingRec = compCases[globalSession.activeMeeting] || { score: 0 };
+      const meetingScore = curMeetingRec.score || 0;
+      const totalCompletedModules = Object.keys(compCases).length;
+      const isAllModulesFinished = totalCompletedModules >= 7;
+
+      container.innerHTML = `
+        <div class="max-w-xl mx-auto py-8 sm:py-12 text-center space-y-6 px-2">
+          <div class="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-5">
+            <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-2xl mx-auto flex items-center justify-center animate-float">
+              <i data-lucide="award" class="w-8 h-8"></i>
+            </div>
+            <div class="space-y-1.5">
+              <h3 class="text-2xl sm:text-3xl font-black text-white">Selamat, Modul Selesai!</h3>
+              <p class="text-slate-400 text-xs sm:text-sm">
+                Kelompok <strong class="text-white">${escapeHtml(selectedGroup.name)}</strong> telah merampungkan 10 kasus pilihan ganda pada modul ini.
+              </p>
+            </div>
+
+            <div class="p-5 bg-slate-950 rounded-2xl border border-slate-800">
+              <span class="text-xs text-slate-400 uppercase tracking-wider block mb-1">Skor Diperoleh pada Modul Ini</span>
+              <span class="text-3xl sm:text-4xl font-black text-emerald-400">${meetingScore} / 1000 Poin</span>
+            </div>
+
+            <div class="pt-2">
+              ${isAllModulesFinished ? `
+                <button 
+                  onclick="currentView='members_input'; renderApp();"
+                  class="w-full py-3.5 animatic-btn text-slate-950 rounded-xl font-bold text-sm shadow-lg cursor-pointer min-h-[44px]"
+                >
+                  Isi Data Anggota & Cetak Sertifikat
+                </button>
+              ` : `
+                <button 
+                  onclick="router.navigateTo('welcome')"
+                  class="w-full py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl font-bold text-xs sm:text-sm border border-slate-700 transition cursor-pointer min-h-[44px]"
+                >
+                  Kembali ke Halaman Beranda
+                </button>
+              `}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderMembersInput(container) {
+      container.innerHTML = `
+        <div class="max-w-md mx-auto py-8 sm:py-12 px-2">
+          <div class="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-5">
+            <div class="text-center space-y-2">
+              <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-xl mx-auto flex items-center justify-center animate-float">
+                <i data-lucide="users" class="w-6 h-6"></i>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-black text-white">Data Anggota Kelompok</h3>
+              <p class="text-xs text-slate-400">Masukkan nama mahasiswa dan NIM untuk dicetak pada sertifikat resmi kelulusan praktikum.</p>
+            </div>
+
+            <form onsubmit="saveMembersAndProceed(event)" class="space-y-4">
+              <div class="space-y-2.5">
+                <h4 class="text-xs font-bold uppercase text-emerald-400">Anggota 1 (Ketua Kelompok)</h4>
+                <input type="text" id="m1-name" placeholder="Nama Lengkap Mahasiswa" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white">
+                <input type="text" id="m1-nim" placeholder="NIM Mahasiswa" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white">
+              </div>
+
+              <div class="space-y-2.5 pt-2">
+                <h4 class="text-xs font-bold uppercase text-emerald-400">Anggota 2 (Opsional)</h4>
+                <input type="text" id="m2-name" placeholder="Nama Lengkap Mahasiswa" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white">
+                <input type="text" id="m2-nim" placeholder="NIM Mahasiswa" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white">
+              </div>
+
+              <button type="submit" class="w-full py-3.5 animatic-btn text-slate-950 rounded-xl font-bold text-xs sm:text-sm shadow-lg cursor-pointer mt-4 min-h-[44px]">
+                Simpan & Terbitkan Sertifikat
+              </button>
+            </form>
+          </div>
+        </div>
+      `;
+    }
+
+    function initApp() {
+      try {
+        initMultiDeviceSync();
+      } catch (err) {
+        console.error("Inisialisasi aplikasi:", err);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
+  </script>
+</body>
+</html>
